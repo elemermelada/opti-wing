@@ -77,8 +77,8 @@ p=ezplot(Fintra,[0,1]);
 p.LineWidth = 1.5;
 p.Color = "red";
 
-scatter(orig_intra(:,1),orig_intra(:,2),50,"blue","X","LineWidth",1.5)
-scatter(orig_extra(:,1),orig_extra(:,2),50,"blue","X","LineWidth",1.5)
+scatter(orig_intra(:,1),orig_intra(:,2),50,"blue","X","LineWidth",1)
+scatter(orig_extra(:,1),orig_extra(:,2),50,"blue","X","LineWidth",1)
 ylim([-0.2,0.2])
 xlabel("")
 title("Original Point Cloud vs. CST Parametrization")
