@@ -6,4 +6,3 @@ function [W] = Wto(x)
 %get structural weight
 W = x(1);
 end
-
