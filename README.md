@@ -6,3 +6,7 @@
 ## Capabilities
 
 ## Runtime Diagram
+
+## Aknowledgements
+
+![TU Delft](https://d2k0ddhflgrk1i.cloudfront.net/Websections/Huisstijl/Bouwstenen/Logo/Descriptor/TUDelft_logo_descriptor_rgb.png)
