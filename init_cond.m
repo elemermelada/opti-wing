@@ -131,8 +131,8 @@ y.taper1_0 = 0.6596;
 y.taper2_0 = 0.3983;
 y.b2_0     = 11.5252; %[m]
 y.sweep2_0 = 27.8572; %[deg]
-y.twist1_0 = 10;%[deg]
-y.twist2_0 = 10;%[deg]
+y.twist1_0 = 0;%[deg]
+y.twist2_0 = 0;%[deg]
 sweep1     = 27.8572;
 y.CST1_0   = CST_root;
 y.CST2_0   = CST_kink;
@@ -221,10 +221,10 @@ fuel_weight=breguett(y.E_0,fc.V,Wtomax)
 
 %%Q3D (Get Drag for A-W)
 %Flight conditions for Q3d
-L = sqrt(Mtow*(Mtow-fuel_weight))*g;
-fc.V     = 262.7;            % flight speed (m/s)
+L = sqrt(Wtomax*(Wtomax-fuel_weight))*g;
+fc.V     = 232.529;            % flight speed (m/s)
 fc.rho   = 0.3804;         % air density  (kg/m3)
-fc.alt   = 10668;             % flight altitude (m)
+fc.alt   = 11887.2;             % flight altitude (m)
 fc.visc  = 1;
 visc     = 8.9E-6;
 fc.Re    = fc.V*fc.rho*CMA/visc;        % reynolds number (bqased on mean aerodynamic chord)
@@ -232,7 +232,6 @@ fc.M     = 0.785;           % flight Mach number
 fc.CL    = L/(1/2*fc.rho*fc.V^2*(S1+S2));   
 
 cd 'Q3D'
-Res=Q3D_Start_V1(y,fc,b1,sweep1);
+Res2=Q3D_Start_V1(y,fc,b1,sweep1);
 cd '..'
 
-Res.Aero

@@ -28,7 +28,7 @@ ANGLE
 # ----------------------------------------------------------
 SECTION
 # Xle Yle Zle Chord Ainc
-0 0 0 6.4823 10
+0 0 0 6.4823 0
 AFILE
 AFsection1.dat
 CLAF
@@ -36,7 +36,7 @@ CLAF
 # ----------------------------------------------------------
 SECTION
 # Xle Yle Zle Chord Ainc
-1.67117 3.162 0 4.27573 10
+1.67117 3.162 0 4.27573 0
 AFILE
 AFsection2.dat
 CLAF
@@ -44,7 +44,7 @@ CLAF
 # ----------------------------------------------------------
 SECTION
 # Xle Yle Zle Chord Ainc
-6.09126 14.6872 0 1.70302 10
+7.76243 14.6872 0 1.70302 0
 AFILE
 AFsection3.dat
 CLAF
