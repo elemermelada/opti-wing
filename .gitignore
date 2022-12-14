@@ -5,3 +5,8 @@ Docs/.$MDO structure.drawio.dtmp
 *.asv
 XDSM.py
 XDSM.txt
+*.txt
+*.dat
+*.init
+*.load
+*.loads
