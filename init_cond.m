@@ -151,14 +151,15 @@ CMA     = CMA1*S1/(S1+S2)+CMA2*S2/(S1+S2);
 
 %CL calculation
 g=9.81;
-Wtomax=79000*g; %[N]
+Wtomax=79000; %[N]
 n=2.5;
-L=n*Wtomax;
+L=n*Wtomax*g;
 
 %Flight conditions for Q3d
 fc.V     = 262.7;            % flight speed (m/s)
 fc.rho   = 0.3804;         % air density  (kg/m3)
 fc.alt   = 10668;             % flight altitude (m)
+fc.visc  = 0;
 visc     = 8.9E-6;
 fc.Re    = fc.V*fc.rho*CMA/visc;        % reynolds number (bqased on mean aerodynamic chord)
 fc.M     = 0.785;           % flight Mach number 
@@ -212,3 +213,9 @@ w.namefile=('B737-800.load')
 file2=write_loads(w)
 
 EMWET('B737-800')
+
+wing_weight=read_output()
+
+y.E_0=16;
+fuel_weight=breguett(y.E_0,fc.V,Wtomax)
+
