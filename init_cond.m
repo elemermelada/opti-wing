@@ -219,3 +219,20 @@ wing_weight=read_output()
 y.E_0=16;
 fuel_weight=breguett(y.E_0,fc.V,Wtomax)
 
+%%Q3D (Get Drag for A-W)
+%Flight conditions for Q3d
+L = sqrt(Mtow*(Mtow-fuel_weight))*g;
+fc.V     = 262.7;            % flight speed (m/s)
+fc.rho   = 0.3804;         % air density  (kg/m3)
+fc.alt   = 10668;             % flight altitude (m)
+fc.visc  = 1;
+visc     = 8.9E-6;
+fc.Re    = fc.V*fc.rho*CMA/visc;        % reynolds number (bqased on mean aerodynamic chord)
+fc.M     = 0.785;           % flight Mach number 
+fc.CL    = L/(1/2*fc.rho*fc.V^2*(S1+S2));   
+
+cd 'Q3D'
+Res=Q3D_Start_V1(y,fc,b1,sweep1);
+cd '..'
+
+Res.Aero
