@@ -82,7 +82,7 @@ cd '..'
 
 %%EMWET:
 %Initial files
-par.namefile    =    'B737-800';
+par.namefile    =    'B737-800.txt';
 par.MTOW    =    Wtomax;         %[kg]
 par.MZF     =    61690;         %[kg]
 par.nz_max      =    2.5;   
