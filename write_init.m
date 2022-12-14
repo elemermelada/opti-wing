@@ -1,16 +1,18 @@
 function [fid]=write_init(par)
 %%%_____Routine to write the input file for the EMWET procedure________% %%
 
-fid = fopen('B737-800','w');
+fid = fopen(par.namefile,'w');
 fprintf(fid, '%g %g \n',par.MTOW,par.MZF);
 fprintf(fid, '%g \n',par.nz_max);
 
-fprintf(fid, '%g %g %g %g \n',par.wing_surf,par.span,par.section_num,par.airfoil_num);
+fprintf(fid, '%g %g %g %g \n',par.wing_surf,par.b1+par.b2,par.section_num,par.airfoil_num);
 
-fprintf(fid, '0 %s \n',par.Airfoil);
-fprintf(fid, '1 %s \n',par.Airfoil);
+fprintf(fid, '0 %s \n',par.Airfoil_root);
+fprintf(fid, '1 %s \n',par.Airfoil_kink);
+fprintf(fid, '2 %s \n',par.Airfoil_out);
 fprintf(fid, '%g %g %g %g %g %g \n',par.root_chord,0,0,0,par.spar_front,par.spar_rear);
-fprintf(fid, '%g %g %g %g %g %g \n',par.root_chord*par.taper,par.span/2*tand(par.sweep_le),par.span/2,0,par.spar_front,par.spar_rear);
+fprintf(fid, '%g %g %g %g %g %g \n',par.root_chord*par.taper1,par.b1*tand(par.sweep1),par.b1,0,par.spar_front,par.spar_rear);
+fprintf(fid, '%g %g %g %g %g %g \n',par.root_chord*par.taper1*par.taper2,(par.b1*tand(par.sweep1))+(par.b2*tand(par.sweep2)),par.b1+par.b2,0,par.spar_front,par.spar_rear);
 
 fprintf(fid, '%g %g \n',par.ftank_start,par.ftank_end);
 
