@@ -18,9 +18,9 @@ AC.Wing.Airfoils   = [x.CST1_0;
 
 
 % TODO - Remove this
-AC.Wing.Airfoils   = [0.2171    0.3450    0.2975    0.2685    0.2893  -0.1299   -0.2388   -0.1635   -0.0476    0.0797;
-                     0.2171    0.3450    0.2975    0.2685    0.2893  -0.1299   -0.2388   -0.1635   -0.0476    0.0797;
-                     0.2171    0.3450    0.2975    0.2685    0.2893  -0.1299   -0.2388   -0.1635   -0.0476    0.0797];
+%AC.Wing.Airfoils   = [0.245725536320516 0.0835791513087489 0.282219129745890 0.0929856342152546 0.293385628144865 0.400516584088780 -0.236955714493727 -0.171774636478909 -0.0494666931461353 -0.501483356689230 0.0772045397719118 0.342216828644832;
+%                     0.245725536320516 0.0835791513087489 0.282219129745890 0.0929856342152546 0.293385628144865 0.400516584088780 -0.236955714493727 -0.171774636478909 -0.0494666931461353 -0.501483356689230 0.0772045397719118 0.342216828644832;
+%                     0.245725536320516 0.0835791513087489 0.282219129745890 0.0929856342152546 0.293385628144865 0.400516584088780 -0.236955714493727 -0.171774636478909 -0.0494666931461353 -0.501483356689230 0.0772045397719118 0.342216828644832];
                   
 AC.Wing.eta = [0; (b1/(b1+x.b2_0)); 1];  % Spanwise location of the airfoil sections
 
@@ -36,8 +36,8 @@ AC.Aero.rho   = fc.rho;         % air density  (kg/m3)
 AC.Aero.alt   = fc.alt;             % flight altitude (m)
 AC.Aero.Re    = fc.Re;        % reynolds number (bqased on mean aerodynamic chord)
 AC.Aero.M     = fc.M;           % flight Mach number 
-%AC.Aero.CL    = fc.CL;          % lift coefficient - comment this line to run the code for given alpha
-AC.Aero.Alpha = 3;             % angle of attack -  comment this line to run the code for given cl 
+AC.Aero.CL    = fc.CL;          % lift coefficient - comment this line to run the code for given alpha
+%AC.Aero.Alpha = 7;             % angle of attack -  comment this line to run the code for given cl 
 
 
 %% 

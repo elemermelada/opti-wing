@@ -7,7 +7,7 @@ clc
 load("orig.mat")
 
 %% OPTIMIZE TO FIND SUITABLE CST
-%%ROOT AIRFOIL
+%%AIRFOIL
 figure(1)
 hold on
 axis equal
@@ -18,14 +18,14 @@ airfoilStep = 0.5/airfoilPoints;
 options = optimoptions("fminunc");
 options.MaxFunctionEvaluations = 1e6;
 
-CSTextra = fminunc(@(x) CSTerror(x,orig_extra_root),[1,1,1,1,1,1],options);
+CSTextra = fminunc(@(x) CSTerror(x,whitcomb_extra),[1,1,1,1,1,1],options);
 C = Cnm(0.5,1);
 S = Sa(CSTextra);
 Fextra = @(x) C(x).*S(x);
 x_airfoil = (1-sin(pi*(0:airfoilStep:0.5)))';
 y_airfoil = Fextra(x_airfoil);
 
-CSTintra = fminunc(@(x) CSTerror(x,orig_intra_root),[1,1,1,1,1,1],options);
+CSTintra = fminunc(@(x) CSTerror(x,whitcomb_intra),[1,1,1,1,1,1],options);
 C = Cnm(0.5,1);
 S = Sa(CSTintra);
 Fintra = @(x) C(x).*S(x);
@@ -39,91 +39,21 @@ p=ezplot(Fintra,[0,1]);
 p.LineWidth = 1.5;
 p.Color = "red";
 
-scatter(orig_intra_root(:,1),orig_intra_root(:,2),50,"blue","X","LineWidth",1)
-scatter(orig_extra_root(:,1),orig_extra_root(:,2),50,"blue","X","LineWidth",1)
+scatter(whitcomb_intra(:,1),whitcomb_intra(:,2),50,"blue","X","LineWidth",1)
+scatter(whitcomb_extra(:,1),whitcomb_extra(:,2),50,"blue","X","LineWidth",1)
 ylim([-0.2,0.2])
 xlabel("")
 title("Original Point Cloud vs. CST Parametrization")
 
-%FORMATO Q3D ROOT
-CST_root = [CSTextra,CSTintra]
+%FORMATO Q3D
+CST_A = [CSTextra,CSTintra];
+CST_B = [CSTextra,CSTintra];
+CST_C = [CSTextra,CSTintra];
 
-%FORMATO EMWET ROOT
-writematrix([x_airfoil,y_airfoil],"AIRFOIL_root.dat",'Delimiter','tab')
-
-%%TIP AIRFOIL
-figure(2)
-hold on
-axis equal
-
-CSTextra = fminunc(@(x) CSTerror(x,orig_extra_out),[1,1,1,1,1,1],options);
-C = Cnm(0.5,1);
-S = Sa(CSTextra);
-Fextra = @(x) C(x).*S(x);
-x_airfoil = (1-sin(pi*(0:airfoilStep:0.5)))';
-y_airfoil = Fextra(x_airfoil);
-
-CSTintra = fminunc(@(x) CSTerror(x,orig_intra_out),[1,1,1,1,1,1],options);
-C = Cnm(0.5,1);
-S = Sa(CSTintra);
-Fintra = @(x) C(x).*S(x);
-x_airfoil = [x_airfoil;(1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))'];
-y_airfoil = [y_airfoil;Fintra((1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))')];
-
-p=ezplot(Fextra,[0,1]);
-p.LineWidth = 1.5;
-p.Color = "red";
-p=ezplot(Fintra,[0,1]);
-p.LineWidth = 1.5;
-p.Color = "red";
-
-scatter(orig_intra_out(:,1),orig_intra_out(:,2),50,"blue","X","LineWidth",1)
-scatter(orig_extra_out(:,1),orig_extra_out(:,2),50,"blue","X","LineWidth",1)
-ylim([-0.2,0.2])
-xlabel("")
-title("Original Point Cloud vs. CST Parametrization")
-
-%FORMATO Q3D TIP
-CST_out = [CSTextra,CSTintra];
-
-%FORMATO EMWET TIP
-writematrix([x_airfoil,y_airfoil],"AIRFOIL_out.dat",'Delimiter','tab')
-
-%%KINK AIRFOIL
-figure(3)
-hold on
-axis equal
-%FORMATO Q3D KINK
-CST_kink = (CST_out+CST_root)/2;
-
-CSTextra = CST_kink(1:size(CST_kink,2)/2);
-C = Cnm(0.5,1);
-S = Sa(CSTextra);
-Fextra = @(x) C(x).*S(x);
-x_airfoil = (1-sin(pi*(0:airfoilStep:0.5)))';
-y_airfoil = Fextra(x_airfoil);
-
-CSTintra = CST_kink(size(CST_kink,2)/2+1:end);
-C = Cnm(0.5,1);
-S = Sa(CSTintra);
-Fintra = @(x) C(x).*S(x);
-x_airfoil = [x_airfoil;(1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))'];
-y_airfoil = [y_airfoil;Fintra((1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))')];
-
-p=ezplot(Fextra,[0,1]);
-p.LineWidth = 1.5;
-p.Color = "red";
-p=ezplot(Fintra,[0,1]);
-p.LineWidth = 1.5;
-p.Color = "red";
-
-scatter(x_airfoil,y_airfoil,50,"blue","X","LineWidth",1)
-ylim([-0.2,0.2])
-xlabel("")
-title("Original Point Cloud vs. CST Parametrization")
-
-%FORMATO EMWET KINK
-writematrix([x_airfoil,y_airfoil],"AIRFOIL_kink.dat",'Delimiter','tab')
+%FORMATO EMWET
+writematrix([x_airfoil,y_airfoil],"AIRFOIL_A.dat",'Delimiter','tab')
+writematrix([x_airfoil,y_airfoil],"AIRFOIL_B.dat",'Delimiter','tab')
+writematrix([x_airfoil,y_airfoil],"AIRFOIL_C.dat",'Delimiter','tab')
 
 %% Values from reference aircraft
 y.croot_0  = 6.4823; %[m]
@@ -134,9 +64,9 @@ y.sweep2_0 = 27.8572; %[deg]
 y.twist1_0 = -5;%[deg]
 y.twist2_0 = -3;%[deg]
 sweep1     = 20;
-y.CST1_0   = CST_root;
-y.CST2_0   = CST_kink;
-y.CST3_0   = CST_out;
+y.CST1_0   = CST_A;
+y.CST2_0   = CST_B;
+y.CST3_0   = CST_C;
 
 %%Q3D LOADS:
 %CMA calculation
@@ -235,13 +165,13 @@ fc.alt   = 10668;             % flight altitude (m)
 fc.visc  = 1;
 visc     = 8.9E-6;
 fc.Re    = fc.V*fc.rho*CMA/visc;        % reynolds number (bqased on mean aerodynamic chord)
-fc.M     = 0.789;           % flight Mach number 
+fc.M     = 0.789*0+0.7;           % flight Mach number 
 fc.CL    = L/(1/2*fc.rho*(fc.V^2)*2*(S1+S2)); %2*(S1+S2), S1+S2 es la superficie alar de un semiala
 
 cd 'Q3D'
 Res2=Q3D_Start_V1(y,fc,b1,sweep1);
 cd '..'
 
-%%Cálculo CDa-w
-%Cd_aw=(Res2.CLwing/y.E_0)-Res2.CDiwing;
+%% Cálculo CDa-w
+Cd_aw_0=(Res2.CLwing/y.E_0)-Res2.CDwing;        %E = Cl/(Cd+Cd_aw_0*S_0/S)
 

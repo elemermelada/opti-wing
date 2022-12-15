@@ -10,3 +10,11 @@ XDSM.txt
 *.init
 *.load
 *.loads
+Q3D/Storage/AVLaero.dat
+Q3D/Storage/AVLinput.avl
+Q3D/Storage/AVLload.dat
+Q3D/Storage/AVLrun.dat
+Q3D/Storage/AVLstrip.dat
+Q3D/Storage/XFOILinput.dat
+Q3D/Storage/Xfout.dat
+B737-800.weight
