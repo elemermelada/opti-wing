@@ -61,12 +61,12 @@ y.taper1_0 = 0.6596;
 y.taper2_0 = 0.3983;
 y.b2_0     = 11.5252; %[m]
 y.sweep2_0 = 27.8572; %[deg]
-y.twist1_0 = -5;%[deg]
-y.twist2_0 = -3;%[deg]
-sweep1     = 20;
-y.CST1_0   = CST_A;
-y.CST2_0   = CST_B;
-y.CST3_0   = CST_C;
+y.twist1_0 = 0;%[deg]
+y.twist2_0 = 0;%[deg]
+sweep1     = 34.9089;
+y.CST1_0   = CST_root;
+y.CST2_0   = CST_kink;
+y.CST3_0   = CST_out;
 
 %%Q3D LOADS:
 %CMA calculation
@@ -86,7 +86,7 @@ n      = 2.5;
 L      = n*Wtomax*g;
 
 %Flight conditions for Q3d inviscid
-fc.V     = 201.662;            % flight speed (m/s)
+fc.V     = 249.1192;            % flight speed (m/s)
 fc.rho   = 0.3804;         % air density  (kg/m3)
 fc.alt   = 10668;             % flight altitude (m)
 fc.visc  = 0;
@@ -159,7 +159,7 @@ fuel_weight=breguett(y.E_0,fc.V,Wtomax) %El fuel weight sale en kg
 %Flight conditions for Q3d
 L        = sqrt(Wtomax*(Wtomax-fuel_weight))*g; %[N]
 %Flight conditions for Q3d
-fc.V     = 234;            % flight speed (m/s)
+fc.V     = 233.9941;            % flight speed (m/s)
 fc.rho   = 0.3804;         % air density  (kg/m3)
 fc.alt   = 10668;             % flight altitude (m)
 fc.visc  = 1;
