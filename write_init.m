@@ -28,5 +28,4 @@ fprintf(fid,'%g %g \n',par.eff_factor,par.pitch_rib)
 fprintf(fid,'1 \n')
 fclose(fid)
 
-
 end

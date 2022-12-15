@@ -4,7 +4,7 @@ function [fid]=write_loads(w)
 fid = fopen(w.namefile,'w');
 
 for i=1:length(w.yst)
-    fprintf(fid, '%g %g %g \n',w.yst(i),w.cl(i),w.cm(i));
+    fprintf(fid, '%g %g %g \n',w.yst(i),w.ccl(i),w.cm_c4(i));
 end
 
 fclose(fid)

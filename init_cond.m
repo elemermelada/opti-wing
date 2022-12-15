@@ -131,9 +131,9 @@ y.taper1_0 = 0.6596;
 y.taper2_0 = 0.3983;
 y.b2_0     = 11.5252; %[m]
 y.sweep2_0 = 27.8572; %[deg]
-y.twist1_0 = 0;%[deg]
-y.twist2_0 = 0;%[deg]
-sweep1     = 27.8572;
+y.twist1_0 = -5;%[deg]
+y.twist2_0 = -3;%[deg]
+sweep1     = 20;
 y.CST1_0   = CST_root;
 y.CST2_0   = CST_kink;
 y.CST3_0   = CST_out;
@@ -141,37 +141,43 @@ y.CST3_0   = CST_out;
 %%Q3D LOADS:
 %CMA calculation
 CMA1    = 2/3*y.croot_0*((y.taper1_0+1)/(y.taper1_0^2+y.taper1_0+1));
-croot_1 = y.taper1_0*y.croot_0;
-CMA2    = 2/3*croot_1*((y.taper2_0+1)/(y.taper2_0^2+y.taper2_0+1));
+c_kink  = y.taper1_0*y.croot_0;
+CMA2    = 2/3*c_kink*((y.taper2_0+1)/(y.taper2_0^2+y.taper2_0+1));
 b1      = 3.162;
-S1      = (y.croot_0+croot_1)*b1/2;
-croot_2 = croot_1*y.taper2_0;
-S2      = (croot_1+croot_2)*y.b2_0/2;
+S1      = (y.croot_0+c_kink)*b1/2;
+c_tip   = y.croot_0*y.taper2_0*y.taper1_0;
+S2      = (c_kink+c_tip)*y.b2_0/2;
 CMA     = CMA1*S1/(S1+S2)+CMA2*S2/(S1+S2);
 
 %CL calculation
-g=9.81;
-Wtomax=79000; %[N]
-n=2.5;
-L=n*Wtomax*g;
+g      = 9.81;
+Wtomax = 79000; %[kg]
+n      = 2.5;
+L      = n*Wtomax*g;
 
-%Flight conditions for Q3d
-fc.V     = 262.7;            % flight speed (m/s)
+%Flight conditions for Q3d inviscid
+fc.V     = 201.662;            % flight speed (m/s)
 fc.rho   = 0.3804;         % air density  (kg/m3)
 fc.alt   = 10668;             % flight altitude (m)
 fc.visc  = 0;
 visc     = 8.9E-6;
 fc.Re    = fc.V*fc.rho*CMA/visc;        % reynolds number (bqased on mean aerodynamic chord)
-fc.M     = 0.785;           % flight Mach number 
-fc.CL    = L/(1/2*fc.rho*fc.V^2*(S1+S2));   
+fc.M     = 0.84;           % flight Mach number 
+fc.CL    = L/(1/2*fc.rho*(fc.V^2)*2*(S1+S2)); %2*(S1+S2), S1+S2 es la superficie alar de un semiala
 
 cd 'Q3D'
 Res=Q3D_Start_V1(y,fc,b1,sweep1);
 cd '..'
 
-w.cl=Res.Wing.cl;
-w.cm=Res.Wing.cm_c4;
-w.yst=Res.Wing.Yst;
+cl  = Res.Wing.ccl;
+cm  = Res.Wing.cm_c4;
+yst = Res.Wing.Yst;
+w.b1  = b1;
+w.b2  = y.b2_0;
+w.yst = linspace(0,1,20);
+q     = 1/2*fc.rho*fc.V^2;
+w.ccl  = interp1(yst,cl*q,w.yst*(w.b1+w.b2),'spline')
+w.cm_c4= interp1(yst,cm*q*CMA,w.yst*(w.b1+w.b2),'spline')
 
 %%EMWET:
 %Initial files
@@ -183,7 +189,7 @@ par.b1          =    b1;
 par.b2          =    y.b2_0;       %[m]
 par.root_chord  =    y.croot_0;       %[m]
 par.taper1      =    y.taper1_0;    
-par.taper2      =    y.taper2_0
+par.taper2      =    y.taper2_0;
 par.sweep1      =    sweep1;      %[deg]
 par.sweep2      =    y.sweep2_0;      %[deg]
 par.spar_front  =    0.2;
@@ -199,9 +205,9 @@ par.Ft_al       =    2.95E8;       %N/m2
 par.Fc_al       =    2.95E8;       %N/m2
 par.pitch_rib   =    0.5;          %[m]
 par.eff_factor  =    0.93;         %Depend on the stringer type
-par.Airfoil_root     =    'AIRFOIL_root';
-par.Airfoil_kink     =    'AIRFOIL_kink';
-par.Airfoil_out     =    'AIRFOIL_out';
+par.Airfoil_root=    'AIRFOIL_root';
+par.Airfoil_kink=    'AIRFOIL_kink';
+par.Airfoil_out =    'AIRFOIL_out';
 par.section_num =    3;
 par.airfoil_num =    3;
 par.wing_surf   =    S1+S2;
@@ -217,21 +223,25 @@ EMWET('B737-800')
 wing_weight=read_output()
 
 y.E_0=16;
-fuel_weight=breguett(y.E_0,fc.V,Wtomax)
+fuel_weight=breguett(y.E_0,fc.V,Wtomax) %El fuel weight sale en kg
 
 %%Q3D (Get Drag for A-W)
 %Flight conditions for Q3d
-L = sqrt(Wtomax*(Wtomax-fuel_weight))*g;
-fc.V     = 232.529;            % flight speed (m/s)
+L        = sqrt(Wtomax*(Wtomax-fuel_weight))*g; %[N]
+%Flight conditions for Q3d
+fc.V     = 234;            % flight speed (m/s)
 fc.rho   = 0.3804;         % air density  (kg/m3)
-fc.alt   = 11887.2;             % flight altitude (m)
+fc.alt   = 10668;             % flight altitude (m)
 fc.visc  = 1;
 visc     = 8.9E-6;
 fc.Re    = fc.V*fc.rho*CMA/visc;        % reynolds number (bqased on mean aerodynamic chord)
-fc.M     = 0.785;           % flight Mach number 
-fc.CL    = L/(1/2*fc.rho*fc.V^2*(S1+S2));   
+fc.M     = 0.789;           % flight Mach number 
+fc.CL    = L/(1/2*fc.rho*(fc.V^2)*2*(S1+S2)); %2*(S1+S2), S1+S2 es la superficie alar de un semiala
 
 cd 'Q3D'
 Res2=Q3D_Start_V1(y,fc,b1,sweep1);
 cd '..'
+
+%%Cálculo CDa-w
+%Cd_aw=(Res2.CLwing/y.E_0)-Res2.CDiwing;
 
