@@ -1,8 +1,8 @@
 %% FUNCTION TO OBTAIN THE ERROR FROM CONVERTING RAW DATA TO CST CURVE
 function [err] = CSTerror(x,original)
     err = 0;
-    C = Cnm(x(1),x(2));
-    S = Sa(x(3:end));
+    C = Cnm(0.5,1);
+    S = Sa(x);
     f = @(x) C(x).*S(x);
     for p=original'
         p=p';

@@ -18,16 +18,16 @@ airfoilStep = 0.5/airfoilPoints;
 options = optimoptions("fminunc");
 options.MaxFunctionEvaluations = 1e6;
 
-CSTextra = fminunc(@(x) CSTerror(x,orig_extra_root),[1,0.5,1,1,1,1,1,1],options);
-C = Cnm(CSTextra(1),CSTextra(2));
-S = Sa(CSTextra(3:end));
+CSTextra = fminunc(@(x) CSTerror(x,orig_extra_root),[1,1,1,1,1,1],options);
+C = Cnm(0.5,1);
+S = Sa(CSTextra);
 Fextra = @(x) C(x).*S(x);
 x_airfoil = (1-sin(pi*(0:airfoilStep:0.5)))';
 y_airfoil = Fextra(x_airfoil);
 
-CSTintra = fminunc(@(x) CSTerror(x,orig_intra_root),[1,0.5,1,1,1,1,1,1],options);
-C = Cnm(CSTintra(1),CSTintra(2));
-S = Sa(CSTintra(3:end));
+CSTintra = fminunc(@(x) CSTerror(x,orig_intra_root),[1,1,1,1,1,1],options);
+C = Cnm(0.5,1);
+S = Sa(CSTintra);
 Fintra = @(x) C(x).*S(x);
 x_airfoil = [x_airfoil;(1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))'];
 y_airfoil = [y_airfoil;Fintra((1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))')];
@@ -56,16 +56,16 @@ figure(2)
 hold on
 axis equal
 
-CSTextra = fminunc(@(x) CSTerror(x,orig_extra_out),[1,0.5,1,1,1,1,1,1],options);
-C = Cnm(CSTextra(1),CSTextra(2));
-S = Sa(CSTextra(3:end));
+CSTextra = fminunc(@(x) CSTerror(x,orig_extra_out),[1,1,1,1,1,1],options);
+C = Cnm(0.5,1);
+S = Sa(CSTextra);
 Fextra = @(x) C(x).*S(x);
 x_airfoil = (1-sin(pi*(0:airfoilStep:0.5)))';
 y_airfoil = Fextra(x_airfoil);
 
-CSTintra = fminunc(@(x) CSTerror(x,orig_intra_out),[1,0.5,1,1,1,1,1,1],options);
-C = Cnm(CSTintra(1),CSTintra(2));
-S = Sa(CSTintra(3:end));
+CSTintra = fminunc(@(x) CSTerror(x,orig_intra_out),[1,1,1,1,1,1],options);
+C = Cnm(0.5,1);
+S = Sa(CSTintra);
 Fintra = @(x) C(x).*S(x);
 x_airfoil = [x_airfoil;(1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))'];
 y_airfoil = [y_airfoil;Fintra((1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))')];
@@ -97,15 +97,15 @@ axis equal
 CST_kink = (CST_out+CST_root)/2;
 
 CSTextra = CST_kink(1:size(CST_kink,2)/2);
-C = Cnm(CSTextra(1),CSTextra(2));
-S = Sa(CSTextra(3:end));
+C = Cnm(0.5,1);
+S = Sa(CSTextra);
 Fextra = @(x) C(x).*S(x);
 x_airfoil = (1-sin(pi*(0:airfoilStep:0.5)))';
 y_airfoil = Fextra(x_airfoil);
 
 CSTintra = CST_kink(size(CST_kink,2)/2+1:end);
-C = Cnm(CSTintra(1),CSTintra(2));
-S = Sa(CSTintra(3:end));
+C = Cnm(0.5,1);
+S = Sa(CSTintra);
 Fintra = @(x) C(x).*S(x);
 x_airfoil = [x_airfoil;(1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))'];
 y_airfoil = [y_airfoil;Fintra((1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))')];
