@@ -1,7 +1,7 @@
 %Initial conditi
-close all
-clc
-
+% close all
+% clc
+function [y, Cd_aw_0, W_aw]=init_cond()
 %% GET INITIAL STATE VECTOR
 %%ORIGINAL AIRFOIL: CST coeff
 load("orig.mat")
@@ -64,9 +64,9 @@ y.sweep2_0 = 27.8572; %[deg]
 y.twist1_0 = 0;%[deg]
 y.twist2_0 = 0;%[deg]
 sweep1     = 34.9089;
-y.CST1_0   = CST_root;
-y.CST2_0   = CST_kink;
-y.CST3_0   = CST_out;
+y.CST1_0   = CST_A;
+y.CST2_0   = CST_B;
+y.CST3_0   = CST_C;
 
 %%Q3D LOADS:
 %CMA calculation
@@ -135,9 +135,9 @@ par.Ft_al       =    2.95E8;       %N/m2
 par.Fc_al       =    2.95E8;       %N/m2
 par.pitch_rib   =    0.5;          %[m]
 par.eff_factor  =    0.93;         %Depend on the stringer type
-par.Airfoil_root=    'AIRFOIL_root';
-par.Airfoil_kink=    'AIRFOIL_kink';
-par.Airfoil_out =    'AIRFOIL_out';
+par.Airfoil_root=    'AIRFOIL_A';
+par.Airfoil_kink=    'AIRFOIL_B';
+par.Airfoil_out =    'AIRFOIL_C';
 par.section_num =    3;
 par.airfoil_num =    3;
 par.wing_surf   =    S1+S2;
@@ -150,10 +150,12 @@ file2=write_loads(w)
 
 EMWET('B737-800')
 
-wing_weight=read_output()
+wing_weight= read_output()
+y.Wwing_0  = wing_weight;
 
-y.E_0=16;
-fuel_weight=breguett(y.E_0,fc.V,Wtomax) %El fuel weight sale en kg
+y.E_0       = 16;
+fuel_weight = breguett(y.E_0,fc.V,Wtomax) %El fuel weight sale en kg
+y.Wfuel_0   = fuel_weight;
 
 %%Q3D (Get Drag for A-W)
 %Flight conditions for Q3d
@@ -173,5 +175,7 @@ Res2=Q3D_Start_V1(y,fc,b1,sweep1);
 cd '..'
 
 %% Cálculo CDa-w
-Cd_aw_0=(Res2.CLwing/y.E_0)-Res2.CDwing;        %E = Cl/(Cd+Cd_aw_0*S_0/S)
+Cd_aw_0=((Res2.CLwing/y.E_0)-Res2.CDwing)*(S1+S2);        %E = Cl/(Cd+Cd_aw_0*S_0/S)
 
+W_aw = Wtomax - y.Wwing_0 - y.Wfuel_0;
+end

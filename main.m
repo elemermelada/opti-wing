@@ -4,6 +4,6 @@ close all
 clc
 
 %% GET INITIAL STATE VECTOR
-init_cond
+[y, Cd_aw_0, W_aw]=init_cond  %W_aw [kg], Cd_aw_0/(S1+S1)
 
 %% OPTIMIZER
