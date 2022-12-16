@@ -1,7 +1,7 @@
 %Initial conditi
 % close all
 % clc
-function [y, Cd_aw_0, W_aw]=init_cond()
+function [y, Cd_aw_0, W_aw, Wtomax_0, S, b1, sweep1]=init_cond()
 %% GET INITIAL STATE VECTOR
 %%ORIGINAL AIRFOIL: CST coeff
 load("orig.mat")

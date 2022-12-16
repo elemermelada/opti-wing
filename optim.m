@@ -1,4 +1,8 @@
-function [f]=optim(x, W_aw, CD_aw)
+function [f]=optim(x)
+
+global parameters;
+Cd_aw=parameters.Cd_aw;
+W_aw=parameters.W_aw;
 
 y.croot  = x(1); %[m]
 y.taper1 = x(2);
@@ -53,5 +57,12 @@ y.E = Res2.CLwing / (Res2.CDwing + Cd_aw/(S));
 y.Wfuel = breguett(y.E_c,249.1192,(W_aw+y.Wwing_c+y.Wfuel_c)) %El fuel weight sale en kg
 
 f = W_aw + y.Wwing + y.Wfuel;
+
+%Definition of the extra design variables as global variables:
+global couplings;
+vararg={y.Wwing,y.E,y.Wfuel,y.Wwing_c,y.E_c,y.Wfuel_c};
+couplings.y.Wwing=y.Wwing;
+couplings.y.E=y.E;
+couplings.y.Wfuel=y.Wfuel;
 
 end

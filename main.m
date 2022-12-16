@@ -4,7 +4,15 @@ close all
 clc
 
 %% GET INITIAL STATE VECTOR
-[y_0, Cd_aw_0, W_aw]=init_cond  %W_aw [kg], Cd_aw_0/(S1+S1)
+[y_0, Cd_aw_0, W_aw, Wtomax_0, S, b1, sweep1]=init_cond  %W_aw [kg], Cd_aw_0/(S1+S1)
+
+global parameters;
+parameters.W_aw     = W_aw;
+parameters.Cd_aw    = Cd_aw;
+parameters.Wtomax_0 = Wtomax_0;
+parameters.S_0      = S_0;
+parameters.b1       = b1;
+parameters.sweep1   = sweep1;
 
 %% OPTIMIZER
 %Order vector y: croot,taper1,taper2,b2,sweep2,twist1,twist2,CSTroot(1,12),CSTkink(1,12),CSTtip(1,12),Wwing,E,Wfuel
