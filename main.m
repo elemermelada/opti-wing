@@ -43,4 +43,6 @@ UB = [1.2, 1, 1, 1.2, 1.2, 2, 2, ...
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
     1.2, 1.2, 1.2];
 
-[x,fval,exitflag] = fmincon(@(x)optim(x),y_0,[],[],[],[],LB,UB,@(x)Constraints(x),options)
+X0 = [1,y_0.taper1,y_0.taper2,1,1,1,1,y_0.CST1,y_0.CST3,1,1,1];
+
+[x,fval,exitflag] = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x))

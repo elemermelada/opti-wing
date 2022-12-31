@@ -16,13 +16,14 @@ function [CST_id]=writexy(CST,id)
     x_airfoil = [x_airfoil;(1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))'];
     y_airfoil = [y_airfoil;Fintra((1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))')];
     writematrix([x_airfoil,y_airfoil],"AIRFOIL_" + id + ".dat",'Delimiter','tab')
+
+    figure(1)
     p=ezplot(Fextra,[0,1]);
     p.LineWidth = 1.5;
     p.Color = "red";
     p=ezplot(Fintra,[0,1]);
     p.LineWidth = 1.5;
     p.Color = "red";
-
     scatter(whitcomb_intra(:,1),whitcomb_intra(:,2),50,"blue","X","LineWidth",1)
     scatter(whitcomb_extra(:,1),whitcomb_extra(:,2),50,"blue","X","LineWidth",1)
     ylim([-0.2,0.2])

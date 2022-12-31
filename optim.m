@@ -63,17 +63,17 @@ g      = 9.81;
 n      = 2.5;
 L      = n*Wtomax*g;
 ca = 0; %Evaluate Q3D inviscid
-[Res0, CMA, S]=Q3Dinit(y,b1,sweep1, L, ca)
+[Res0, CMA, S]=Q3Dinit(y,parameters.b1,parameters.sweep1, L, ca)
 
 %EMWET:
-[Wwing]=EMWETinit(Res0, y, b1, sweep1, CMA, S, Wtomax)
+[Wwing]=EMWETinit(Res0, y, parameters.b1, parameters.sweep1, CMA, S, Wtomax)
 y.Wwing = Wwing;
 
 %Q3D AERO
 L  = sqrt(Wtomax*(Wtomax-y.Wfuel_c))*g; %[N]
 ca = 1; %Evaluate Q3D viscous
-[Res1]=Q3Dinit(y,b1,sweep1, L, ca)
-y.E = Res2.CLwing / (Res2.CDwing + Cd_aw/(S));
+[Res1]=Q3Dinit(y,parameters.b1,parameters.sweep1, L, ca)
+y.E = Res1.CLwing / (Res1.CDwing + Cd_aw/(S));
 
 %Breguett:
 y.Wfuel = breguett(y.E_c,249.1192,(W_aw+y.Wwing_c+y.Wfuel_c)) %El fuel weight sale en kg

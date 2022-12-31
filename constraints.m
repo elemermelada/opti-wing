@@ -1,16 +1,16 @@
-function [c, ceq]=constraints=(x)
+function [c, ceq]=constraints(x)
 
 global couplings;
 y.E     = couplings.y.E;
 y.Wwing = couplings.y.Wwing;
 y.Wfuel = couplings.y.Wfuel;
 
-y.Wwing_c = x(44);
-y.E_c     = x(45);
-y.Wfuel_c = x(46);
+y.Wwing_c = x(end-2);
+y.E_c     = x(end-1);
+y.Wfuel_c = x(end);
 
 global initial;
-croot_0=initial.croot_0;
+croot_0=initial.croot;
 taper1_0=initial.taper1;
 taper2_0=initial.taper2;
 b2_0=initial.b2;
@@ -25,6 +25,8 @@ ceq3 = abs(y.Wfuel - y.Wfuel_c*Wfuel_0);
 ceq=[ceq1, ceq2, ceq3];
 
 %%TODO: Inequality constraint concerning the fuel tank, c2
+Vfuel(x)
+
 %Inequality constraint for the wing-loading.
 global parameters;
 Wtomax_0=parameters.Wtomax_0;
