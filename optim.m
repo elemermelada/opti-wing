@@ -30,9 +30,9 @@ y.sweep2 = x(5)*sweep2_0; %[deg]
 y.twist1 = x(6)*twist1_0;%[deg]
 y.twist2 = x(7)*twist2_0;%[deg]
 
-y.CST1 = x(8:20);
-y.CST3 = x(20:32);
-y.CST2 = (x(8:20)+x(20:32))./2;
+y.CST1 = x(8:19);
+y.CST3 = x(20:31);
+y.CST2 = (x(8:19)+x(20:31))./2;
 
 % i=1;
 % while i<13
