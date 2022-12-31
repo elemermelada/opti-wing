@@ -1,16 +1,34 @@
-function [f]=optim(x)
+function [fad]=optim(x)
 
 global parameters;
 Cd_aw=parameters.Cd_aw;
 W_aw=parameters.W_aw;
+W_tomax_0=parameters.Wtomax_0;
 
-y.croot  = x(1); %[m]
+global initial;
+croot_0=initial.croot;
+taper1_0=initial.taper1;
+taper2_0=initial.taper2;
+b2_0=initial.b2;
+sweep2_0=initial.sweep2;
+twist1_0=initial.twist1;
+twist2_0=initial.twist2;
+CST1_0=initial.CSTr;
+CST2_0=initial.CSTk;
+CST3_0=initial.CSTt;
+Wwing_0=initial.Wwing_0;
+E_0=initial.E_0;
+Wfuel_0=initial.Wfuel_0;
+
+%El vector de diseño x es adimensional, lo dimensionalizamos
+
+y.croot  = x(1)*croot_0; %[m]
 y.taper1 = x(2);
 y.taper2 = x(3);
-y.b2     = x(4); %[m]
-y.sweep2 = x(5); %[deg]
-y.twist1 = x(6);%[deg]
-y.twist2 = x(7);%[deg]
+y.b2     = x(4)*b2_0; %[m]
+y.sweep2 = x(5)*sweep2_0; %[deg]
+y.twist1 = x(6)*twist1_0;%[deg]
+y.twist2 = x(7)*twist2_0;%[deg]
 
 i=1;
 while i<13
@@ -20,9 +38,9 @@ while i<13
     i=i+1;
 end
 
-y.Wwing_c = x(44);
-y.E_c     = x(45);
-y.Wfuel_c = x(46);
+y.Wwing_c = x(44)*Wwing_0;
+y.E_c     = x(45)*E_0;
+y.Wfuel_c = x(46)*Wfuel_0;
 
 id='A';
 CST=[y.CST1(1:6), y.CST1(7:12)];
@@ -65,4 +83,5 @@ couplings.y.Wwing=y.Wwing;
 couplings.y.E=y.E;
 couplings.y.Wfuel=y.Wfuel;
 
+fad=f/W_tomax_0;
 end
