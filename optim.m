@@ -30,17 +30,21 @@ y.sweep2 = x(5)*sweep2_0; %[deg]
 y.twist1 = x(6)*twist1_0;%[deg]
 y.twist2 = x(7)*twist2_0;%[deg]
 
-i=1;
-while i<13
-    y.CST1(i)  = x(8+i-1);
-    y.CST2(i)  = x(20+i-1);
-    y.CST3(i)  = x(32+i-1);
-    i=i+1;
-end
+y.CST1 = x(8:20);
+y.CST3 = x(20:32);
+y.CST2 = (x(8:20)+x(20:32))./2;
 
-y.Wwing_c = x(44)*Wwing_0;
-y.E_c     = x(45)*E_0;
-y.Wfuel_c = x(46)*Wfuel_0;
+% i=1;
+% while i<13
+%     y.CST1(i)  = x(8+i-1);
+%     y.CST2(i)  = x(20+i-1);
+%     y.CST3(i)  = x(32+i-1);
+%     i=i+1;
+% end
+
+y.Wwing_c = x(end-2)*Wwing_0;
+y.E_c     = x(end-1)*E_0;
+y.Wfuel_c = x(end)*Wfuel_0;
 
 id='A';
 CST=[y.CST1(1:6), y.CST1(7:12)];
