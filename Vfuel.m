@@ -3,7 +3,7 @@
 function [vol] = Vfuel(x)
 
 y.CST1 = x(8:19);
-y.CST3 = x(20:31);
+y.CST3 = x(20:31)*0.85+x(8:19)*0.15;
 y.CST2 = (x(8:19)+x(20:31))./2;
 
 figure(34)
@@ -12,8 +12,8 @@ axis equal
 hold on
 
 C = Cnm(0.5,1);
-CSText = y.CST1(1:size(y.CST1,2)/2);
-CSTint = y.CST1(size(y.CST1,2)/2+1:end);
+CSText = y.CST3(1:size(y.CST1,2)/2);
+CSTint = y.CST3(size(y.CST1,2)/2+1:end);
 
 S = Sa(CSText);
 Fext = @(x) C(x).*S(x);
@@ -32,6 +32,7 @@ plot(pgon)
 
 ylim([-0.2,0.2])
 
+title(num2str(y.CST3))
 drawnow
 
 %get necessary fuel

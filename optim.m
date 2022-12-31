@@ -63,10 +63,10 @@ g      = 9.81;
 n      = 2.5;
 L      = n*Wtomax*g;
 ca = 0; %Evaluate Q3D inviscid
-[Res0, CMA, S]=Q3Dinit(y,parameters.b1,parameters.sweep1, L, ca)
+[Res0, CMA, S]=Q3Dinit(y,parameters.b1,parameters.sweep1, L, ca);
 
 %EMWET:
-[Wwing]=EMWETinit(Res0, y, parameters.b1, parameters.sweep1, CMA, S, Wtomax)
+[Wwing]=EMWETinit(Res0, y, parameters.b1, parameters.sweep1, CMA, S, Wtomax);
 y.Wwing = Wwing;
 
 %Q3D AERO
