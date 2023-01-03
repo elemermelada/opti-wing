@@ -2,6 +2,8 @@
 %TODO - make sure that necessary fuel is only evaluated ONCE per iteration...
 function [vol] = Vfuel(x)
 
+bounds = [0.175,0.6];
+
 global initial
 global parameters
 global couplings
@@ -34,13 +36,13 @@ p=ezplot(Fint,[0,1]);
 p.LineWidth = 1.5;
 p.Color = "blue";
 
-pgon = polyshape([0.175,0.175,0.575,0.575],[Fext(0.175),Fint(0.175),Fint(0.575),Fext(0.575)]);
+pgon = polyshape([bounds(1),bounds(1),bounds(2),bounds(2)],[Fext(bounds(1)),Fint(bounds(1)),Fint(bounds(2)),Fext(bounds(2))]);
 plot(pgon)
 
 ylim([-0.2,0.2])
 
 c = x(1)*initial.croot;
-S1 = (0.575-.175)*(Fext(0.175)+Fext(0.575)-Fint(0.175)-Fint(0.575))/2*c^2;
+S1 = (bounds(2)-.175)*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
 
 %%2
 subplot(3,1,2);
@@ -63,13 +65,13 @@ p=ezplot(Fint,[0,1]);
 p.LineWidth = 1.5;
 p.Color = "blue";
 
-pgon = polyshape([0.175,0.175,0.575,0.575],[Fext(0.175),Fint(0.175),Fint(0.575),Fext(0.575)]);
+pgon = polyshape([bounds(1),bounds(1),bounds(2),bounds(2)],[Fext(bounds(1)),Fint(bounds(1)),Fint(bounds(2)),Fext(bounds(2))]);
 plot(pgon)
 
 ylim([-0.2,0.2])
 
 c = x(1)*initial.croot*x(2);
-S2 = (0.575-.175)*(Fext(0.175)+Fext(0.575)-Fint(0.175)-Fint(0.575))/2*c^2;
+S2 = (bounds(2)-.175)*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
 
 %%3
 subplot(3,1,3);
@@ -92,13 +94,13 @@ p=ezplot(Fint,[0,1]);
 p.LineWidth = 1.5;
 p.Color = "blue";
 
-pgon = polyshape([0.175,0.175,0.575,0.575],[Fext(0.175),Fint(0.175),Fint(0.575),Fext(0.575)]);
+pgon = polyshape([bounds(1),bounds(1),bounds(2),bounds(2)],[Fext(bounds(1)),Fint(bounds(1)),Fint(bounds(2)),Fext(bounds(2))]);
 plot(pgon)
 
 ylim([-0.2,0.2])
 
 c = x(1)*initial.croot*x(2)*x(3);
-S3 = (0.575-.175)*(Fext(0.175)+Fext(0.575)-Fint(0.175)-Fint(0.575))/2*c^2;
+S3 = (bounds(2)-.175)*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
 
 drawnow
 
