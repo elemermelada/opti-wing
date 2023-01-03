@@ -9,8 +9,8 @@ function [Wwing]=EMWETinit(Res0, y, b1, sweep1, CMA, S, Wtomax)
     V     = 249.1192;            % flight speed (m/s)
     rho   = 0.3804;
     q     = 1/2*rho*V^2;
-    w.ccl  = interp1(yst,cl*q,w.yst*(w.b1+w.b2),'spline')
-    w.cm_c4= interp1(yst,cm*q*CMA,w.yst*(w.b1+w.b2),'spline')
+    w.ccl  = interp1(yst,cl*q,w.yst*(w.b1+w.b2),'spline');
+    w.cm_c4= interp1(yst,cm*q*CMA,w.yst*(w.b1+w.b2),'spline');
     
     %Initial files
     par.namefile    =    'B737-800.init';
@@ -44,15 +44,15 @@ function [Wwing]=EMWETinit(Res0, y, b1, sweep1, CMA, S, Wtomax)
     par.airfoil_num =    3;
     par.wing_surf   =    S;
 
-    file1=write_init(par)
+    file1=write_init(par);
 
     %%Loads file:
     w.namefile=('B737-800.load')
-    file2=write_loads(w)
+    file2=write_loads(w);
 
     EMWET('B737-800')
 
-    wing_weight= read_output()
+    wing_weight= read_output();
     Wwing  = wing_weight;
     
 end

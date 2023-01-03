@@ -48,13 +48,13 @@ y.Wfuel_c = x(end)*Wfuel_0;
 
 id='A';
 CST=[y.CST1(1:6), y.CST1(7:12)];
-[CST_A]=writexy(CST,id)
+[CST_A]=writexy(CST,id);
 id='B'
 CST=[y.CST2(1:6), y.CST2(7:12)];
-[CST_B]=writexy(CST,id)
+[CST_B]=writexy(CST,id);
 id='C'
 CST=[y.CST3(1:6), y.CST3(7:12)];
-[CST_C]=writexy(CST,id)
+[CST_C]=writexy(CST,id);
 
 %%Llamada a las disciplinas
 %Q3D Loads:
@@ -72,11 +72,11 @@ y.Wwing = Wwing;
 %Q3D AERO
 L  = sqrt(Wtomax*(Wtomax-y.Wfuel_c))*g; %[N]
 ca = 1; %Evaluate Q3D viscous
-[Res1]=Q3Dinit(y,parameters.b1,parameters.sweep1, L, ca)
+[Res1]=Q3Dinit(y,parameters.b1,parameters.sweep1, L, ca);
 y.E = Res1.CLwing / (Res1.CDwing + Cd_aw/(S));
 
 %Breguett:
-y.Wfuel = breguett(y.E_c,249.1192,(W_aw+y.Wwing_c+y.Wfuel_c)) %El fuel weight sale en kg
+y.Wfuel = breguett(y.E_c,249.1192,(W_aw+y.Wwing_c+y.Wfuel_c)); %El fuel weight sale en kg
 
 f = W_aw + y.Wwing + y.Wfuel;
 

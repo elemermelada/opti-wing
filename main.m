@@ -48,5 +48,20 @@ X0 = [1,y_0.taper1,y_0.taper2,1,1,1,1,y_0.CST1,y_0.CST3,1,1,1];
 fileID = fopen('myLog.txt','a'); % 'a' will append to a file or create it if it doesn't exist.
 f = @(x,optimValues,state) outputFcn(x,optimValues,state,fileID);
 
-options = optimoptions('fmincon','OptimalityTolerance',1e-12, 'Display','iter-detailed', OutputFcn=f);
-[x,fval,exitflag] = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options)
+options = optimoptions('fmincon','OptimalityTolerance',1e-12, 'Display','iter-detailed', "Algorithm","interior-point","EnableFeasibilityMode",true,OutputFcn=f);
+
+options.EnableFeasibilityMode = true;
+options.SubproblemAlgorithm = "cg";
+
+
+% % Options for the optimization
+% options.Display         = 'iter-detailed';
+% options.Algorithm       = 'sqp';
+% options.FunValCheck     = 'off';
+% options.DiffMinChange   = 1e-6;         % Minimum change while gradient searching
+% options.DiffMaxChange   = 5e-2;         % Maximum change while gradient searching
+% options.TolCon          = 1e-6;         % Maximum difference between two subsequent constraint vectors [c and ceq]
+% options.TolFun          = 1e-6;         % Maximum difference between two subseque
+
+
+sol = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options)

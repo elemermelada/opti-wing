@@ -8,9 +8,6 @@ load("orig.mat")
 
 %% OPTIMIZE TO FIND SUITABLE CST
 %%AIRFOIL
-figure(1)
-hold on
-axis equal
 
 options = optimoptions("fminunc");
 options.MaxFunctionEvaluations = 1e6;

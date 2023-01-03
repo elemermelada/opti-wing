@@ -18,6 +18,9 @@ function [CST_id]=writexy(CST,id)
     writematrix([x_airfoil,y_airfoil],"AIRFOIL_" + id + ".dat",'Delimiter','tab')
 
     figure(1)
+    clf
+    hold on
+    axis equal
     p=ezplot(Fextra,[0,1]);
     p.LineWidth = 1.5;
     p.Color = "red";
