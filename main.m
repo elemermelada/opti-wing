@@ -34,13 +34,13 @@ initial.Wfuel_0=y_0.Wfuel_0;
 %TODO: hay que adimensionalizar, vector inial y_0 y constraints
 
 LB = [0.8, 0, 0, 0.8, 0.8, -0.5, -0.5, ...
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, ...
+    -0.1, -0.1, -0.1, -0.1, -0.1, -0.1, -0.1, -0.1, -0.1, -0.1, -0.1, -0.1, ...
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, ...
     0.8, 0.8, 0.8];
 
 UB = [1.2, 1, 1, 1.2, 1.2, 2, 2, ...
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
+    0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, ...
     1.2, 1.2, 1.2];
 
 X0 = [1,y_0.taper1,y_0.taper2,1,1,1,1,y_0.CST1,y_0.CST3,1,1,1];
@@ -48,22 +48,18 @@ X0 = [1,y_0.taper1,y_0.taper2,1,1,1,1,y_0.CST1,y_0.CST3,1,1,1];
 fileID = fopen('myLog.txt','a'); % 'a' will append to a file or create it if it doesn't exist.
 f = @(x,optimValues,state) outputFcn(x,optimValues,state,fileID);
 
-options = optimoptions('fmincon','OptimalityTolerance',1e-12, 'Display','iter-detailed', "Algorithm","interior-point","EnableFeasibilityMode",true,OutputFcn=f);
-
-options.EnableFeasibilityMode = true;
-options.SubproblemAlgorithm = "cg";
+options = optimoptions('fmincon',OutputFcn=f);
 
 % Options for the optimization
 options.Display         = 'iter-detailed';
 options.Algorithm       = 'sqp';
 options.FunValCheck     = 'off';
-options.DiffMinChange   = 0.001;        % Minimum change while gradient searching
+options.DiffMinChange   = 0.0001;       % Minimum change while gradient searching
 options.DiffMaxChange   = 0.05;         % Maximum change while gradient searching
 options.TolCon          = 0.0001;       % Maximum difference between two subsequent constraint vectors [c and ceq]
 options.TolFun          = 1e-9;         % Maximum difference between two subseque
 options.TolX            = 1e-9;
 options.MaxIterations   = 50;
-
 
 %sol = ga(@(x)optim(x),size(LB,2),[],[],[],[],LB,UB,@(x)constraints(x));
 sol = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options);
