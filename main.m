@@ -54,14 +54,16 @@ options.EnableFeasibilityMode = true;
 options.SubproblemAlgorithm = "cg";
 
 
-% % Options for the optimization
-% options.Display         = 'iter-detailed';
-% options.Algorithm       = 'sqp';
-% options.FunValCheck     = 'off';
-% options.DiffMinChange   = 1e-6;         % Minimum change while gradient searching
-% options.DiffMaxChange   = 5e-2;         % Maximum change while gradient searching
-% options.TolCon          = 1e-6;         % Maximum difference between two subsequent constraint vectors [c and ceq]
-% options.TolFun          = 1e-6;         % Maximum difference between two subseque
+% Options for the optimization
+options.Display         = 'iter-detailed';
+options.Algorithm       = 'sqp';
+options.FunValCheck     = 'off';
+options.DiffMinChange   = 0.001;         % Minimum change while gradient searching
+options.DiffMaxChange   = 0.05;         % Maximum change while gradient searching
+options.TolCon          = 0.0001;         % Maximum difference between two subsequent constraint vectors [c and ceq]
+options.TolFun          = 1e-9;         % Maximum difference between two subseque
+options.TolX            = 1e-9;
+options.MaxIterations   = 50;
 
 
 sol = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options)

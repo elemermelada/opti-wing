@@ -25,7 +25,7 @@ ceq3 = abs(y.Wfuel - y.Wfuel_c*Wfuel_0);
 ceq=[ceq1, ceq2, ceq3];
 
 %%TODO: Inequality constraint concerning the fuel tank, c2
-Vfuel(x)
+c2=Vfuel(x);
 
 %Inequality constraint for the wing-loading.
 global parameters;
@@ -35,6 +35,6 @@ b1= parameters.b1;
 W_aw=parameters.W_aw;
 
 c1=((W_aw+y.Wwing+y.Wfuel)/((b1/2*(x(1)*croot_0+x(1)*croot_0*x(2)))+(x(4)*b2_0/2*(x(1)*croot_0*x(2)+x(1)*croot_0*x(2)*x(3)))))-(Wtomax_0/Sref);
-c=[c1,];
+c=[c1,c2];
 
 end

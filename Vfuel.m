@@ -109,6 +109,6 @@ disp(S2)
 disp(S3)
 vreq = couplings.y.Wfuel/0.81715e3
 vtank = (S1+S2)/2*parameters.b1+(S2+S3)/2*x(4)*((initial.b2+parameters.b1)*0.85-parameters.b1);
-vol = 2*vtank*0.93-vreq;
+vol = vreq-2*vtank*0.93;
 end
 
