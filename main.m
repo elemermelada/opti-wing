@@ -4,7 +4,7 @@ close all
 clc
 
 %% GET INITIAL STATE VECTOR
-[y_0, Cd_aw_0, W_aw, Wtomax_0, S, b1, sweep1]=init_cond  %W_aw [kg], Cd_aw_0/(S1+S1)
+[y_0, Cd_aw_0, W_aw, Wtomax_0, S, b1, sweep1]=init_cond()  %W_aw [kg], Cd_aw_0/(S1+S1)
 
 global parameters;
 parameters.W_aw     = W_aw;
@@ -35,33 +35,30 @@ initial.Wfuel_0=y_0.Wfuel_0;
 
 X0 = [1,y_0.taper1,y_0.taper2,1,1,1,1,y_0.CST1,y_0.CST3,1,1,1];
 
-LB = [0.8, 0, 0, 0.8, 0.8, -0.5, -0.5, ...
+LB = [0.6, 0.2, 0.2, 0.8, 0.8, -0.5, -0.5, ...
     min(X0(8:31)*0.6,X0(8:31)*1.4), ...
-    0.8, 0.8, 0.8];
+    0.6, 0.6, 0.6];
 
-UB = [1.2, 1, 1, 1.2, 1.2, 2, 2, ...
+UB = [1.4, 1, 1, 1.2, 1.2, 2, 2, ...
     max(X0(8:31)*0.6,X0(8:31)*1.4), ...
-    1.2, 1.2, 1.2];
+    1.4, 1.4, 1.4];
 
 fileID = fopen('myLog.txt','a'); % 'a' will append to a file or create it if it doesn't exist.
 f = @(x,optimValues,state) outputFcn(x,optimValues,state,fileID);
 
-options = optimoptions('fmincon','OutputFcn', f);
-
-%options.EnableFeasibilityMode = true;
-%options.SubproblemAlgorithm = "cg";
+options = optimoptions('fmincon',OutputFcn=f);
 
 % Options for the optimization
 options.Display         = 'iter-detailed';
 options.Algorithm       = 'sqp';
 options.FunValCheck     = 'off';
-options.DiffMinChange   = 0.001;        % Minimum change while gradient searching
+options.DiffMinChange   = 0.0001;       % Minimum change while gradient searching
 options.DiffMaxChange   = 0.05;         % Maximum change while gradient searching
 options.TolCon          = 0.0001;       % Maximum difference between two subsequent constraint vectors [c and ceq]
 options.TolFun          = 1e-9;         % Maximum difference between two subseque
 options.TolX            = 1e-9;
 options.MaxIterations   = 50;
-
+options.PlotFcns = {@optimplotx,@optimplotfval,@optimplotfirstorderopt};
 
 %sol = ga(@(x)optim(x),size(LB,2),[],[],[],[],LB,UB,@(x)constraints(x));
 sol = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options);

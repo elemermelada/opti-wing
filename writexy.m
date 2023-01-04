@@ -17,8 +17,6 @@ function [CST_id]=writexy(CST,id)
     y_airfoil = [y_airfoil;Fintra((1-sin(pi*(0.5+airfoilStep:airfoilStep:1)))')];
     writematrix([x_airfoil,y_airfoil],"AIRFOIL_" + id + ".dat",'Delimiter','tab')
 
-    figure(1)
-    clf
     hold on
     axis equal
     p=ezplot(Fextra,[0,1]);

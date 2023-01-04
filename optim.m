@@ -33,18 +33,25 @@ y.twist2 = x(7)*twist2_0;%[deg]
 y.CST1 = x(8:19);
 y.CST3 = x(20:31);
 y.CST2 = (x(8:19)+x(20:31))./2;
+
+
 y.Wwing_c = x(end-2)*Wwing_0;
 y.E_c     = x(end-1)*E_0;
 y.Wfuel_c = x(end)*Wfuel_0;
 
+figure(1)
+clf
 id='A';
 CST=[y.CST1(1:6), y.CST1(7:12)];
+subplot(3,1,1)
 [CST_A]=writexy(CST,id);
 id='B'
 CST=[y.CST2(1:6), y.CST2(7:12)];
+subplot(3,1,2)
 [CST_B]=writexy(CST,id);
 id='C'
 CST=[y.CST3(1:6), y.CST3(7:12)];
+subplot(3,1,3)
 [CST_C]=writexy(CST,id);
 
 %%Llamada a las disciplinas
@@ -57,7 +64,7 @@ ca = 0; %Evaluate Q3D inviscid
 [Res0, CMA, S]=Q3Dinit(y,parameters.b1,parameters.sweep1, L, ca);
 
 %EMWET:
-MZFW = Wtomax - y.Wfuel_c;
+MZFW = Wtomax-y.Wfuel_c;
 [Wwing]=EMWETinit(Res0, y, parameters.b1, parameters.sweep1, CMA, S, Wtomax, MZFW);
 y.Wwing = Wwing;
 

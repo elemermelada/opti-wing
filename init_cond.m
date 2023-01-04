@@ -28,7 +28,7 @@ id='C'
 sweep1     = 34.9089;
 b1         = 3.162;
 y.croot    = 6.4823; %[m]
-y.taper1   = 0.6596;
+y.taper1    = 0.6596;
 y.taper2   = 0.3983;
 y.b2       = 11.5252; %[m]
 y.sweep2   = 27.8572; %[deg]
@@ -47,7 +47,7 @@ ca = 0; %Evaluate Q3D inviscid
 [Res0, CMA, S]=Q3Dinit(y,b1,sweep1, L, ca)
 
 %%EMWET:
-MZFW = 61690;
+MZFW=61690;
 [Wwing_0]=EMWETinit(Res0, y, b1, sweep1, CMA, S, Wtomax_0, MZFW)
 y.Wwing_0 = Wwing_0;
 
