@@ -2,7 +2,7 @@
 %TODO - make sure that necessary fuel is only evaluated ONCE per iteration...
 function [vol] = Vfuel(x)
 
-bounds = [0.175,0.6];
+bounds = [0.1,0.7];
 
 global initial
 global parameters
@@ -42,7 +42,7 @@ plot(pgon)
 ylim([-0.2,0.2])
 
 c = x(1)*initial.croot;
-S1 = (bounds(2)-.175)*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
+S1 = (bounds(2)-bounds(1))*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
 
 %%2
 subplot(3,1,2);
@@ -71,7 +71,7 @@ plot(pgon)
 ylim([-0.2,0.2])
 
 c = x(1)*initial.croot*x(2);
-S2 = (bounds(2)-.175)*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
+S2 = (bounds(2)-bounds(1))*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
 
 %%3
 subplot(3,1,3);

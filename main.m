@@ -33,25 +33,23 @@ initial.Wfuel_0=y_0.Wfuel_0;
 %Order vector y: croot,taper1,taper2,b2,sweep2,twist1,twist2,CSTroot(1,12),CSTkink(1,12),CSTtip(1,12),Wwing,E,Wfuel
 %TODO: hay que adimensionalizar, vector inial y_0 y constraints
 
+X0 = [1,y_0.taper1,y_0.taper2,1,1,1,1,y_0.CST1,y_0.CST3,1,1,1];
+
 LB = [0.8, 0, 0, 0.8, 0.8, -0.5, -0.5, ...
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, ...
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, ...
+    min(X0(8:31)*0.6,X0(8:31)*1.4), ...
     0.8, 0.8, 0.8];
 
 UB = [1.2, 1, 1, 1.2, 1.2, 2, 2, ...
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
+    max(X0(8:31)*0.6,X0(8:31)*1.4), ...
     1.2, 1.2, 1.2];
-
-X0 = [1,y_0.taper1,y_0.taper2,1,1,1,1,y_0.CST1,y_0.CST3,1,1,1];
 
 fileID = fopen('myLog.txt','a'); % 'a' will append to a file or create it if it doesn't exist.
 f = @(x,optimValues,state) outputFcn(x,optimValues,state,fileID);
 
-options = optimoptions('fmincon','OptimalityTolerance',1e-12, 'Display','iter-detailed', "Algorithm","interior-point","EnableFeasibilityMode",true,OutputFcn=f);
+options = optimoptions('fmincon','OutputFcn', f);
 
-options.EnableFeasibilityMode = true;
-options.SubproblemAlgorithm = "cg";
+%options.EnableFeasibilityMode = true;
+%options.SubproblemAlgorithm = "cg";
 
 % Options for the optimization
 options.Display         = 'iter-detailed';

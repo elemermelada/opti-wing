@@ -33,15 +33,6 @@ y.twist2 = x(7)*twist2_0;%[deg]
 y.CST1 = x(8:19);
 y.CST3 = x(20:31);
 y.CST2 = (x(8:19)+x(20:31))./2;
-
-% i=1;
-% while i<13
-%     y.CST1(i)  = x(8+i-1);
-%     y.CST2(i)  = x(20+i-1);
-%     y.CST3(i)  = x(32+i-1);
-%     i=i+1;
-% end
-
 y.Wwing_c = x(end-2)*Wwing_0;
 y.E_c     = x(end-1)*E_0;
 y.Wfuel_c = x(end)*Wfuel_0;
@@ -66,7 +57,8 @@ ca = 0; %Evaluate Q3D inviscid
 [Res0, CMA, S]=Q3Dinit(y,parameters.b1,parameters.sweep1, L, ca);
 
 %EMWET:
-[Wwing]=EMWETinit(Res0, y, parameters.b1, parameters.sweep1, CMA, S, Wtomax);
+MZFW = Wtomax - y.Wfuel_c;
+[Wwing]=EMWETinit(Res0, y, parameters.b1, parameters.sweep1, CMA, S, Wtomax, MZFW);
 y.Wwing = Wwing;
 
 %Q3D AERO
