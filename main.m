@@ -46,7 +46,7 @@ UB = [1.4, 1, 1, 1.2, 1.2, 2, 2, ...
 fileID = fopen('myLog.txt','a'); % 'a' will append to a file or create it if it doesn't exist.
 f = @(x,optimValues,state) outputFcn(x,optimValues,state,fileID);
 
-options = optimoptions('fmincon',OutputFcn=f);
+options = optimoptions('fmincon','OutputFcn',f);
 
 % Options for the optimization
 options.Display         = 'iter-detailed';

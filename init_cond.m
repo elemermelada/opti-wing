@@ -17,11 +17,11 @@ CSTintra = fminunc(@(x) CSTerror(x,whitcomb_intra),[1,1,1,1,1,1],options);
 
 id='A';
 CST=[CSTextra, CSTintra];
-[CST_A]=writexy(CST,id)
+[CST_A]=writexy(CST(1:12)*14/8,id)
 id='B'
-[CST_B]=writexy(CST,id)
+[CST_B]=writexy(CST(1:12)*11/8,id)
 id='C'
-[CST_C]=writexy(CST,id)
+[CST_C]=writexy(CST(1:12),id)
 
 
 %% Values from reference aircraft
