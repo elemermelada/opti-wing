@@ -4,7 +4,7 @@ close all
 clc
 
 %% GET INITIAL STATE VECTOR
-[y_0, Cd_aw_0, W_aw, Wtomax_0, S, b1, sweep1]=init_cond  %W_aw [kg], Cd_aw_0/(S1+S1)
+[y_0, Cd_aw_0, W_aw, Wtomax_0, S, b1, sweep1]=init_cond()  %W_aw [kg], Cd_aw_0/(S1+S1)
 
 global parameters;
 parameters.W_aw     = W_aw;
@@ -58,6 +58,7 @@ options.TolCon          = 0.0001;       % Maximum difference between two subsequ
 options.TolFun          = 1e-9;         % Maximum difference between two subseque
 options.TolX            = 1e-9;
 options.MaxIterations   = 50;
+options.PlotFcns = {@optimplotx,@optimplotfval,@optimplotfirstorderopt};
 
 %sol = ga(@(x)optim(x),size(LB,2),[],[],[],[],LB,UB,@(x)constraints(x));
 sol = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options);
