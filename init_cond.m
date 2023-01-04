@@ -47,7 +47,8 @@ ca = 0; %Evaluate Q3D inviscid
 [Res0, CMA, S]=Q3Dinit(y,b1,sweep1, L, ca)
 
 %%EMWET:
-[Wwing_0]=EMWETinit(Res0, y, b1, sweep1, CMA, S, Wtomax_0)
+MZFW=61690;
+[Wwing_0]=EMWETinit(Res0, y, b1, sweep1, CMA, S, Wtomax_0, MZFW)
 y.Wwing_0 = Wwing_0;
 
 %%Breguett:

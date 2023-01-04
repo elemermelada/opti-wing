@@ -1,4 +1,4 @@
-function [Wwing]=EMWETinit(Res0, y, b1, sweep1, CMA, S, Wtomax)
+function [Wwing]=EMWETinit(Res0, y, b1, sweep1, CMA, S, Wtomax, MZFW)
     
     cl    = Res0.Wing.ccl;
     cm    = Res0.Wing.cm_c4;
@@ -15,7 +15,7 @@ function [Wwing]=EMWETinit(Res0, y, b1, sweep1, CMA, S, Wtomax)
     %Initial files
     par.namefile    =    'B737-800.init';
     par.MTOW        =    Wtomax;         %[kg]
-    par.MZF         =    61690;         %[kg]
+    par.MZF         =    MZFW;         %[kg]
     par.nz_max      =    2.5;   
     par.b1          =    b1;
     par.b2          =    y.b2;       %[m]
