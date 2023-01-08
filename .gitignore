@@ -15,6 +15,7 @@ XDSM.txt
 *.VEH
 *.VIN
 *.txt
+*.nam
+*.sir
 
 *.dat
-*.avl
