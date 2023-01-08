@@ -48,7 +48,11 @@ ca = 0; %Evaluate Q3D inviscid
 
 %%Breguett:
 y.E_0       = 16;
-fuel_weight = breguett(16,249.1192,Wtomax_0) %El fuel weight sale en kg
+V = 249.1192;
+Ct=1.8639E-4;
+R=5365.244E3; %[m]
+Wratio=exp(-(R*Ct/(V*y.E_0)))
+fuel_weight = (1-0.938*Wratio)*Wtomax_0 %El fuel weight sale en kg
 y.Wfuel_0   = fuel_weight;
 
 %%EMWET:

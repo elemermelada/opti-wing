@@ -75,7 +75,7 @@ ca = 1; %Evaluate Q3D viscous
 y.E = Res1.CLwing / (Res1.CDwing + Cd_aw/(S));
 
 %Breguett:
-y.Wfuel = breguett(y.E_c,249.1192,(W_aw+y.Wwing_c+y.Wfuel_c)); %El fuel weight sale en kg
+y.Wfuel = breguett(y.E_c,249.1192, W_aw, y.Wwing_c); %El fuel weight sale en kg
 
 f = W_aw + y.Wwing + y.Wfuel;
 
