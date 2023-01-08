@@ -1,5 +1,9 @@
 function [fad]=optim(x)
 
+    % Save x to file
+    fileID = fopen("lastXEval.txt", "w");
+    fprintf(fileID,'%s',num2str(x));
+
 global parameters;
 Cd_aw=parameters.Cd_aw;
 W_aw=parameters.W_aw;
@@ -41,18 +45,20 @@ y.Wfuel_c = x(end)*Wfuel_0;
 
 figure(1)
 clf
+cd 'EMWET 1.5'\
 id='A';
 CST=[y.CST1(1:6), y.CST1(7:12)];
 subplot(3,1,1)
-[CST_A]=writexy(CST,id);
+[CST_A]=write_xy(CST,id);
 id='B'
 CST=[y.CST2(1:6), y.CST2(7:12)];
 subplot(3,1,2)
-[CST_B]=writexy(CST,id);
+[CST_B]=write_xy(CST,id);
 id='C'
 CST=[y.CST3(1:6), y.CST3(7:12)];
 subplot(3,1,3)
-[CST_C]=writexy(CST,id);
+[CST_C]=write_xy(CST,id);
+cd '..'
 
 %%Llamada a las disciplinas
 %Q3D Loads:

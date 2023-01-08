@@ -20,6 +20,7 @@ subplot(3,1,1);
 axis equal
 hold on
 
+cd 'CST'
 C = Cnm(0.5,1);
 CSText = y.CST1(1:size(y.CST1,2)/2);
 CSTint = y.CST1(size(y.CST1,2)/2+1:end);
@@ -101,6 +102,7 @@ ylim([-0.2,0.2])
 
 c = x(1)*initial.croot*x(2)*x(3);
 S3 = (bounds(2)-.175)*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
+cd '..'
 
 drawnow
 

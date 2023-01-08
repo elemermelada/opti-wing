@@ -12,17 +12,20 @@ load("orig.mat")
 options = optimoptions("fminunc");
 options.MaxFunctionEvaluations = 1e6;
 
+cd 'CST'
 CSTextra = fminunc(@(x) CSTerror(x,whitcomb_extra),[1,1,1,1,1,1],options);
 CSTintra = fminunc(@(x) CSTerror(x,whitcomb_intra),[1,1,1,1,1,1],options);
+cd '..'
 
+cd 'EMWET 1.5'\
 id='A';
 CST=[CSTextra, CSTintra];
-[CST_A]=writexy(CST(1:12)*14/8,id)
+[CST_A]=write_xy(CST(1:12)*14/8,id)
 id='B'
-[CST_B]=writexy(CST(1:12)*11/8,id)
+[CST_B]=write_xy(CST(1:12)*11/8,id)
 id='C'
-[CST_C]=writexy(CST(1:12),id)
-
+[CST_C]=write_xy(CST(1:12),id)
+cd '..'
 
 %% Values from reference aircraft
 sweep1     = 34.9089;

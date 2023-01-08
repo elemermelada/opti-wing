@@ -43,9 +43,6 @@ UB = [1.4, 1, 1, 1.2, 1.2, 1, 1, ...
     max(X0(8:31)*0.6,X0(8:31)*1.4), ...
     1.4, 1.4, 1.4];
 
-fileID = fopen('myLog.txt','a'); % 'a' will append to a file or create it if it doesn't exist.
-f = @(x,optimValues,state) outputFcn(x,optimValues,state,fileID);
-
 options = optimoptions('fmincon','OutputFcn',f);
 
 % Options for the optimization
@@ -59,6 +56,13 @@ options.TolFun          = 1e-9;         % Maximum difference between two subsequ
 options.TolX            = 1e-9;
 options.MaxIterations   = 50;
 options.PlotFcns = {@optimplotx,@optimplotfval,@optimplotfirstorderopt};
+options.OutputFcn = @(x) outF(x);
 
 %sol = ga(@(x)optim(x),size(LB,2),[],[],[],[],LB,UB,@(x)constraints(x));
 sol = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options);
+
+function stop = outF(x)
+    fileID = fopen("lastXIter.txt", "w");
+    fprintf(fileID,'%s',num2str(x));
+    stop = false;
+end

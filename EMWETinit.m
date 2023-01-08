@@ -44,6 +44,7 @@ function [Wwing]=EMWETinit(Res0, y, b1, sweep1, CMA, S, Wtomax, MZFW)
     par.airfoil_num =    3;
     par.wing_surf   =    S;
 
+    cd 'EMWET 1.5'\
     file1=write_init(par);
 
     %%Loads file:
@@ -51,8 +52,8 @@ function [Wwing]=EMWETinit(Res0, y, b1, sweep1, CMA, S, Wtomax, MZFW)
     file2=write_loads(w);
 
     EMWET('B737-800')
-
     wing_weight= read_output();
+    cd '..'
     Wwing  = wing_weight;
     
 end

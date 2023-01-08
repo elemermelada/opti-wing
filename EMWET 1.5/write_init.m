@@ -1,6 +1,6 @@
 function [fid]=write_init(par)
 %%%_____Routine to write the input file for the EMWET procedure________% %%
-
+par.namefile
 fid = fopen(par.namefile,'w');
 fprintf(fid, '%g %g \n',par.MTOW,par.MZF);
 fprintf(fid, '%g \n',par.nz_max);
