@@ -43,8 +43,6 @@ UB = [1.4, 1, 1, 1.2, 1.2, 1, 1, ...
     max(X0(8:31)*0.6,X0(8:31)*1.4), ...
     1.4, 1.4, 1.4];
 
-options = optimoptions('fmincon','OutputFcn',f);
-
 % Options for the optimization
 options.Display         = 'iter-detailed';
 options.Algorithm       = 'sqp';
