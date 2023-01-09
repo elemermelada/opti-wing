@@ -29,7 +29,7 @@ function [Res, CMA, S]=Q3Dinit(y,b1,sweep1, L, ca)
         fc.visc  = 1;
         visc     = 8.9E-6;
         fc.Re    = fc.V*fc.rho*CMA/visc;        % reynolds number (bqased on mean aerodynamic chord)
-        fc.M     = 0.789*0+0.7;           % flight Mach number 
+        fc.M     = 0.789*0+0.8;           % flight Mach number 
         fc.CL    = L/(1/2*fc.rho*(fc.V^2)*2*(S1+S2)); %2*(S1+S2), S1+S2 es la superficie alar de un semiala
     end
     
