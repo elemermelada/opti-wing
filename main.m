@@ -54,12 +54,12 @@ options.TolFun          = 1e-9;         % Maximum difference between two subsequ
 options.TolX            = 1e-9;
 options.MaxIterations   = 50;
 options.PlotFcns = {@optimplotx,@optimplotfval,@optimplotfirstorderopt};
-options.OutputFcn = @(x) outF(x);
+options.OutputFcn = @(x, optimValues, state) outF(x, optimValues, state);
 
 %sol = ga(@(x)optim(x),size(LB,2),[],[],[],[],LB,UB,@(x)constraints(x));
 sol = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options);
 
-function stop = outF(x)
+function stop = outF(x, optimValues, state)
     fileID = fopen("lastXIter.txt", "w");
     fprintf(fileID,'%s',num2str(x));
     stop = false;
