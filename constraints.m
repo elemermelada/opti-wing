@@ -22,6 +22,10 @@ ceq1 = abs(y.E - y.E_c*E_0)/(abs(y.E_c*E_0)+0.01);
 ceq2 = abs(y.Wwing - y.Wwing_c*Wwing_0)/(abs(y.Wwing_c*Wwing_0)+0.01);
 ceq3 = abs(y.Wfuel - y.Wfuel_c*Wfuel_0)/(abs(y.Wfuel_c*Wfuel_0)+0.01);
 
+if isnan(ceq1) ceq1 = 1; end
+if isnan(ceq2) ceq2 = 1; end
+if isnan(ceq3) ceq3 = 1; end
+
 ceq=[ceq1, ceq2, ceq3];
 
 %%TODO: Inequality constraint concerning the fuel tank, c2

@@ -36,23 +36,24 @@ initial.Wfuel_0=y_0.Wfuel_0;
 X0 = [1,y_0.taper1,y_0.taper2,1,1,1,1,y_0.CST1,y_0.CST3,1,1,1];
 
 LB = [0.6, 0.2, 0.2, 0.8, 0.8, -0.5, -0.5, ...
-    min(X0(8:31)*0.6,X0(8:31)*1.15), ...
+    min(X0(8:31)*0.6,X0(8:31)*1.2), ...
     0.5, 0.6, 0.6];
 
 UB = [1.5, 1, 1, 1.2, 1.2, 1.1, 1, ...
-    max(X0(8:31)*0.6,X0(8:31)*1.15), ...
+    max(X0(8:31)*0.6,X0(8:31)*1.2), ...
     1.4, 1.5, 1.4];
 
 % Options for the optimization
 options.Display         = 'iter-detailed';
 options.Algorithm       = 'sqp';
 options.FunValCheck     = 'off';
-options.DiffMinChange   = 0.0001;       % Minimum change while gradient searching
-options.DiffMaxChange   = 0.05;         % Maximum change while gradient searching
-options.TolCon          = 0.0001;       % Maximum difference between two subsequent constraint vectors [c and ceq]
-options.TolFun          = 1e-9;         % Maximum difference between two subseque
-options.TolX            = 1e-9;
-options.MaxIterations   = 50;
+options.DiffMinChange   = 5e-3;       % Minimum change while gradient searching
+options.DiffMaxChange   = 1e-1;         % Maximum change while gradient searching
+options.TolCon          = 1e-4;       % Maximum difference between two subsequent constraint vectors [c and ceq]
+options.TolFun          = 1e-4;         % Maximum difference between two subseque
+options.TolX            = 1e-4;
+options.MaxIterations   = 30;
+options.ScaleProblem    = false;
 options.PlotFcns = {@optimplotx,@optimplotfval,@optimplotfirstorderopt};
 options.OutputFcn = @(x, optimValues, state) outF(x, optimValues, state);
 
