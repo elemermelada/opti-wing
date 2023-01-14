@@ -42,7 +42,7 @@ CSTmax = max(max(X0(8:31)*CSTbounds(1),X0(8:31)*CSTbounds(2)),CSTmin+0.02);
 
 LB = [0.6, 0.2, 0.2, 0.8, 0.8, -0.5, -0.5, ...
     CSTmin, ...
-    0.47, 0.6, 0.6];
+    0.6, 0.6, 0.6];
 
 UB = [1.5, 1, 1, 1.2, 1.2, 1.1, 1, ...
     CSTmax, ...
@@ -52,7 +52,7 @@ UB = [1.5, 1, 1, 1.2, 1.2, 1.1, 1, ...
 options.Display         = 'iter-detailed';
 options.Algorithm       = 'sqp';
 options.FunValCheck     = 'off';
-options.DiffMinChange   = 1e-4;       % Minimum change while gradient searching
+options.DiffMinChange   = 1e-3;       % Minimum change while gradient searching
 options.DiffMaxChange   = 5e-2;         % Maximum change while gradient searching
 options.TolCon          = 1e-4;       % Maximum difference between two subsequent constraint vectors [c and ceq]
 options.TolFun          = 1e-4;         % Maximum difference between two subseque

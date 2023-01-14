@@ -61,17 +61,19 @@ subplot(3,1,3)
 cd '..'
 
 %% Plot planform
-% figure(2)
-% clf
-% hold on
-% axis equal
-% plot_planform(initial.X0, true)
-% plot_planform(x, false)
-% drawnow
+figure(2)
+clf
+subplot(2,1,1)
+hold on
+axis equal
+plot_planform(initial.X0, true)
+plot_planform(x, false)
+drawnow
 
 %% Plot ISO
-figure(3)
-clf
+% figure(3)
+% clf
+subplot(2,1,2)
 hold on
 axis equal
 plot_planform(x, false)
@@ -114,6 +116,7 @@ for i=0:res
     plot3((0:0.01:1)*0+y_0_leading,initial.croot - x_0_leading- c*(0:0.01:1), Fintra(0:0.01:1)*c, Color="red")
 end
 drawnow
+view([135 35])
 
 %%Llamada a las disciplinas
 %Q3D Loads:
