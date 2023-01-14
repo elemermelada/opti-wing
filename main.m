@@ -63,7 +63,7 @@ options.PlotFcns = {@optimplotx,@optimplotfval,@optimplotfirstorderopt};
 options.OutputFcn = @(x, optimValues, state) outF(x, optimValues, state);
 
 %sol = ga(@(x)optim(x),size(LB,2),[],[],[],[],LB,UB,@(x)constraints(x));
-sol = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options);
+[sol,fval,exitflag,output] = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options);
 
 function stop = outF(x, optimValues, state)
     fileID = fopen("lastXIter.txt", "w");
