@@ -12,107 +12,35 @@ y.CST1 = x(8:19);
 y.CST3 = x(20:31)*0.85+x(8:19)*0.15;
 y.CST2 = (x(8:19)+x(20:31))./2;
 
-figure(34)
-clf
+%% Volume for first trapezoid
+vol1 = integral2(@(eta,nu)wing_surface(y.CST1,y.CST2,x(1)*initial.croot,x(1)*initial.croot*x(2),parameters.b1,eta,nu),0,1,0,1);
 
-%%1
-subplot(3,1,1);
-axis equal
-hold on
+%% Volume for second trapezoid
+vol2 = integral2(@(eta,nu)wing_surface(y.CST2,y.CST2*0.15 + 0.85*y.CST3,x(1)*initial.croot*x(2),x(1)*initial.croot*x(2)*(0.15+0.85*x(3)),((initial.b2+parameters.b1)*0.85-parameters.b1),eta,nu),0,1,0,1);
 
-cd 'CST'
-C = Cnm(0.5,1);
-CSText = y.CST1(1:size(y.CST1,2)/2);
-CSTint = y.CST1(size(y.CST1,2)/2+1:end);
-
-S = Sa(CSText);
-Fext = @(x) C(x).*S(x);
-p=ezplot(Fext,[0,1]);
-p.LineWidth = 1.5;
-p.Color = "blue";
-
-S = Sa(CSTint);
-Fint = @(x) C(x).*S(x);
-p=ezplot(Fint,[0,1]);
-p.LineWidth = 1.5;
-p.Color = "blue";
-
-pgon = polyshape([bounds(1),bounds(1),bounds(2),bounds(2)],[Fext(bounds(1)),Fint(bounds(1)),Fint(bounds(2)),Fext(bounds(2))]);
-plot(pgon)
-
-ylim([-0.2,0.2])
-
-c = x(1)*initial.croot;
-%S1 = (bounds(2)-bounds(1))*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2
-S1 = integral(@(x)Fext(x)-Fint(x),bounds(1),bounds(2))*c^2;
-
-%%2
-subplot(3,1,2);
-axis equal
-hold on
-
-C = Cnm(0.5,1);
-CSText = y.CST2(1:size(y.CST1,2)/2);
-CSTint = y.CST2(size(y.CST1,2)/2+1:end);
-
-S = Sa(CSText);
-Fext = @(x) C(x).*S(x);
-p=ezplot(Fext,[0,1]);
-p.LineWidth = 1.5;
-p.Color = "blue";
-
-S = Sa(CSTint);
-Fint = @(x) C(x).*S(x);
-p=ezplot(Fint,[0,1]);
-p.LineWidth = 1.5;
-p.Color = "blue";
-
-pgon = polyshape([bounds(1),bounds(1),bounds(2),bounds(2)],[Fext(bounds(1)),Fint(bounds(1)),Fint(bounds(2)),Fext(bounds(2))]);
-plot(pgon)
-
-ylim([-0.2,0.2])
-
-c = x(1)*initial.croot*x(2);
-%S2 = (bounds(2)-bounds(1))*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2
-S2 = integral(@(x)Fext(x)-Fint(x),bounds(1),bounds(2))*c^2;
-
-%%3
-subplot(3,1,3);
-axis equal
-hold on
-
-C = Cnm(0.5,1);
-CSText = y.CST3(1:size(y.CST1,2)/2);
-CSTint = y.CST3(size(y.CST1,2)/2+1:end);
-
-S = Sa(CSText);
-Fext = @(x) C(x).*S(x);
-p=ezplot(Fext,[0,1]);
-p.LineWidth = 1.5;
-p.Color = "blue";
-
-S = Sa(CSTint);
-Fint = @(x) C(x).*S(x);
-p=ezplot(Fint,[0,1]);
-p.LineWidth = 1.5;
-p.Color = "blue";
-
-pgon = polyshape([bounds(1),bounds(1),bounds(2),bounds(2)],[Fext(bounds(1)),Fint(bounds(1)),Fint(bounds(2)),Fext(bounds(2))]);
-plot(pgon)
-
-ylim([-0.2,0.2])
-
-c = x(1)*initial.croot*x(2)*x(3);
-%S3 = (bounds(2)-.175)*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
-S3 = integral(@(x)Fext(x)-Fint(x),bounds(1),bounds(2))*c^2;
-cd '..'
-
-drawnow
-
-%get necessary fuel
-%get available fuel vol
-vreq = couplings.y.Wfuel/0.81715e3
-vtank = (S1+S2)/2*parameters.b1+(S2+S3)/2*x(4)*((initial.b2+parameters.b1)*0.85-parameters.b1);
+%% Volume required
+vreq = couplings.y.Wfuel/0.81715e3;
+vtank = vol1 + vol2;
 vol = vreq-2*vtank*0.93;
+end
+
+function height = wing_surface(CST1,CST2,c1,c2,b,eta,nu)
+    height = eta.*0;
+    for i = 1:size(eta,1)
+        for j = 1:size(eta,2)
+            etaval = eta(i,j);
+            nuval = nu(i,j);
+            cd 'CST'
+            c = c1.*(1-etaval)+c2.*etaval;
+            CST = CST1.*(1-etaval)+CST2.*etaval;
+            C = Cnm(0.5,1);
+            S = Sa(CST(1:size(CST,2)/2));
+            Fext = @(x) C(x).*S(x);
+            S = Sa(CST(size(CST,2)/2+1:end));
+            Fint = @(x) C(x).*S(x);
+            cd '..'
+            height(i,j) = (Fext(nuval)-Fint(nuval)).*c^2.*b;
+        end
+    end
 end
 

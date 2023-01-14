@@ -60,6 +60,15 @@ subplot(3,1,3)
 [CST_C]=write_xy(CST,id);
 cd '..'
 
+%% Plot planform
+figure(2)
+clf
+hold on
+axis equal
+plot_planform(initial.X0, true)
+plot_planform(x, false)
+drawnow
+
 %%Llamada a las disciplinas
 %Q3D Loads:
 Wtomax = W_aw + y.Wwing_c + y.Wfuel_c; %[kg]
@@ -93,4 +102,32 @@ couplings.y.E=y.E;
 couplings.y.Wfuel=y.Wfuel;
 
 fad=f/W_tomax_0;
+end
+
+function res = plot_planform(x,light)
+    global parameters
+    global initial
+    b1 = parameters.b1;
+    c0 = initial.croot;
+    b0 = initial.b2;
+    
+    color ="blue"
+    if (light)
+        color = "cyan"
+    end
+    
+    c_root = x(1)*c0;
+    taper_1 = x(2);
+    taper_2 = x(3);
+    b_2 = x(4)*b0;
+    sweep_2 = x(5)*initial.sweep2;
+    
+    pgon = polyshape([0,0,b1,b1],[0,c_root,c_root*taper_1,0]);
+    plot(pgon, FaceColor=color)
+    
+    pgon = polyshape([b1,b1,b1+b_2,b1+b_2],[0,c_root*taper_1,c_root*taper_1*taper_2-b_2*tand(sweep_2),0-b_2*tand(sweep_2)]);
+    plot(pgon, FaceColor=color)
+    
+    xlim([0,18])
+    res = 0;
 end
