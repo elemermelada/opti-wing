@@ -68,7 +68,6 @@ hold on
 axis equal
 plot_planform(initial.X0, true)
 plot_planform(x, false)
-drawnow
 
 %% Plot ISO
 % figure(3)
@@ -115,9 +114,8 @@ for i=0:res
     Fintra = @(x) C(x).*S(x);
     plot3((0:0.01:1)*0+y_0_leading,initial.croot - x_0_leading- c*(0:0.01:1), Fintra(0:0.01:1)*c, Color="red")
 end
-drawnow
 view([135 35])
-
+drawnow
 %%Llamada a las disciplinas
 %Q3D Loads:
 Wtomax = W_aw + y.Wwing_c + y.Wfuel_c; %[kg]
