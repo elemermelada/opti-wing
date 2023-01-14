@@ -61,12 +61,58 @@ subplot(3,1,3)
 cd '..'
 
 %% Plot planform
-figure(2)
+% figure(2)
+% clf
+% hold on
+% axis equal
+% plot_planform(initial.X0, true)
+% plot_planform(x, false)
+% drawnow
+
+%% Plot ISO
+figure(3)
 clf
 hold on
 axis equal
-plot_planform(initial.X0, true)
 plot_planform(x, false)
+res = 5;
+for i=0:res
+    CST = y.CST1*(res-i)/res + y.CST2*i/res;
+    c = initial.croot*((res-i)/res+x(2)*i/res);
+    y_0_leading = parameters.b1*i/res;
+    x_0_leading = initial.croot-c;
+    cd 'CST'
+    C = Cnm(0.5,1);
+    S = Sa(CST(1:6));
+    cd '..'
+    Fextra = @(x) C(x).*S(x);
+    plot3((0:0.01:1)*0+y_0_leading,initial.croot-x_0_leading-c*(0:0.01:1), Fextra(0:0.01:1)*c, Color="red")
+    cd 'CST'
+    C = Cnm(0.5,1);
+    S = Sa(CST(7:12));
+    cd '..'
+    Fintra = @(x) C(x).*S(x);
+    plot3((0:0.01:1)*0+y_0_leading,initial.croot - x_0_leading- c*(0:0.01:1), Fintra(0:0.01:1)*c, Color="red")
+end
+res=15
+for i=0:res
+    CST = y.CST2*(res-i)/res + y.CST3*i/res;
+    c = initial.croot*x(2)*((res-i)/res+x(3)*i/res);
+    y_0_leading = parameters.b1+initial.b2*x(4)*i/res;
+    x_0_leading = initial.croot*(1-x(2))+initial.b2*x(4)*i/res*tand(initial.sweep2*x(5));
+    cd 'CST'
+    C = Cnm(0.5,1);
+    S = Sa(CST(1:6));
+    cd '..'
+    Fextra = @(x) C(x).*S(x);
+    plot3((0:0.01:1)*0+y_0_leading,initial.croot-x_0_leading-c*(0:0.01:1), Fextra(0:0.01:1)*c, Color="red")
+    cd 'CST'
+    C = Cnm(0.5,1);
+    S = Sa(CST(7:12));
+    cd '..'
+    Fintra = @(x) C(x).*S(x);
+    plot3((0:0.01:1)*0+y_0_leading,initial.croot - x_0_leading- c*(0:0.01:1), Fintra(0:0.01:1)*c, Color="red")
+end
 drawnow
 
 %%Llamada a las disciplinas
@@ -125,7 +171,7 @@ function res = plot_planform(x,light)
     pgon = polyshape([0,0,b1,b1],[0,c_root,c_root*taper_1,0]);
     plot(pgon, FaceColor=color)
     
-    pgon = polyshape([b1,b1,b1+b_2,b1+b_2],[0,c_root*taper_1,c_root*taper_1*taper_2-b_2*tand(sweep_2),0-b_2*tand(sweep_2)]);
+    pgon = polyshape([b1,b1,b1+b_2,b1+b_2],[0,c_root*taper_1,c_root*taper_1-b_2*tand(sweep_2),c_root*taper_1-b_2*tand(sweep_2)-c_root*taper_1*taper_2]);
     plot(pgon, FaceColor=color)
     
     xlim([0,18])
