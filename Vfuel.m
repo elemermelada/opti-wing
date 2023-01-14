@@ -43,7 +43,8 @@ plot(pgon)
 ylim([-0.2,0.2])
 
 c = x(1)*initial.croot;
-S1 = (bounds(2)-bounds(1))*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
+%S1 = (bounds(2)-bounds(1))*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2
+S1 = integral(@(x)Fext(x)-Fint(x),bounds(1),bounds(2))*c^2;
 
 %%2
 subplot(3,1,2);
@@ -72,7 +73,8 @@ plot(pgon)
 ylim([-0.2,0.2])
 
 c = x(1)*initial.croot*x(2);
-S2 = (bounds(2)-bounds(1))*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
+%S2 = (bounds(2)-bounds(1))*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2
+S2 = integral(@(x)Fext(x)-Fint(x),bounds(1),bounds(2))*c^2;
 
 %%3
 subplot(3,1,3);
@@ -101,16 +103,14 @@ plot(pgon)
 ylim([-0.2,0.2])
 
 c = x(1)*initial.croot*x(2)*x(3);
-S3 = (bounds(2)-.175)*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
+%S3 = (bounds(2)-.175)*(Fext(bounds(1))+Fext(bounds(2))-Fint(bounds(1))-Fint(bounds(2)))/2*c^2;
+S3 = integral(@(x)Fext(x)-Fint(x),bounds(1),bounds(2))*c^2;
 cd '..'
 
 drawnow
 
 %get necessary fuel
 %get available fuel vol
-disp(S1)
-disp(S2)
-disp(S3)
 vreq = couplings.y.Wfuel/0.81715e3
 vtank = (S1+S2)/2*parameters.b1+(S2+S3)/2*x(4)*((initial.b2+parameters.b1)*0.85-parameters.b1);
 vol = vreq-2*vtank*0.93;
