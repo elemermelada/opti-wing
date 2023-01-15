@@ -71,6 +71,7 @@ tic
 toc
 
 function stop = outF(x, optimValues, state)
+    drawnow
     fileID = fopen("lastXIter.txt", "w");
     fprintf(fileID,'%s',num2str(x));
     fclose(fileID);

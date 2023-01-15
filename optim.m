@@ -115,7 +115,6 @@ for i=0:res
     plot3((0:0.01:1)*0+y_0_leading,initial.croot*x(1) - x_0_leading- c*(0:0.01:1), Fintra(0:0.01:1)*c, "Color","red")
 end
 view([135 35])
-drawnow
 %%Llamada a las disciplinas
 %Q3D Loads:
 Wtomax = W_aw + y.Wwing_c + y.Wfuel_c; %[kg]

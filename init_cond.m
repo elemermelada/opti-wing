@@ -20,9 +20,9 @@ cd '..'
 cd 'EMWET 1.5'\
 id='A';
 CST=[CSTextra, CSTintra];
-[CST_A]=write_xy(CST(1:12)*14/8,id)
+[CST_A]=write_xy(CST(1:12)*16/8,id)
 id='B'
-[CST_B]=write_xy(CST(1:12)*11/8,id)
+[CST_B]=write_xy(CST(1:12)*12/8,id)
 id='C'
 [CST_C]=write_xy(CST(1:12),id)
 cd '..'
@@ -30,7 +30,7 @@ cd '..'
 %% Values from reference aircraft
 sweep1     = 34.9089;
 b1         = 3.162;
-y.croot    = 6.4823; %[m]
+y.croot    = 7.4; %[m]
 y.taper1    = 0.6596;
 y.taper2   = 0.3983;
 y.b2       = 11.5252; %[m]
@@ -50,7 +50,7 @@ ca = 0; %Evaluate Q3D inviscid
 [Res0, CMA, S]=Q3Dinit(y,b1,sweep1, L, ca)
 
 %%Breguett:
-y.E_0       = 16;
+y.E_0       = 18.5;
 V = 249.1192;
 Ct=1.8639E-4;
 R=5365.244E3; %[m]
