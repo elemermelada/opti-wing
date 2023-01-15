@@ -170,10 +170,10 @@ function res = plot_planform(x,light)
     sweep_2 = x(5)*initial.sweep2;
     
     pgon = polyshape([0,0,b1,b1],[0,c_root,c_root*taper_1,0]);
-    plot(pgon, FaceColor=color)
+    plot(pgon, "FaceColor", color)
     
     pgon = polyshape([b1,b1,b1+b_2,b1+b_2],[0,c_root*taper_1,c_root*taper_1-b_2*tand(sweep_2),c_root*taper_1-b_2*tand(sweep_2)-c_root*taper_1*taper_2]);
-    plot(pgon, FaceColor=color)
+    plot(pgon, "FaceColor", color)
     
     xlim([0,18])
     res = 0;
