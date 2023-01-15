@@ -2,7 +2,7 @@
 %TODO - make sure that necessary fuel is only evaluated ONCE per iteration...
 function [vol] = Vfuel(x)
 
-bounds = [0.1,0.7];
+bounds = [0.15,0.6];
 
 global initial
 global parameters

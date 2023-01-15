@@ -2,6 +2,7 @@
 clear
 close all
 clc
+delete "constrHistory.txt"
 
 %% GET INITIAL STATE VECTOR
 [y_0, Cd_aw_0, W_aw, Wtomax_0, S, b1, sweep1]=init_cond()  %W_aw [kg], Cd_aw_0/(S1+S1)
@@ -32,7 +33,7 @@ initial.Wfuel_0=y_0.Wfuel_0;
 %% OPTIMIZER
 %Order vector y: croot,taper1,taper2,b2,sweep2,twist1,twist2,CSTroot(1,12),CSTkink(1,12),CSTtip(1,12),Wwing,E,Wfuel
 
-X0 = [1,y_0.taper1,y_0.taper2,1,1,1,1,y_0.CST1,y_0.CST3,1,1,1];
+X0 = [1,y_0.taper1,y_0.taper2,1,1,0,0,y_0.CST1,y_0.CST3,1,1,1];
 initial.X0 = X0;
 %X0 = [1.14092683927078	0.783728530880358	0.351889227751475	0.966728353248564	0.910597279828490	1.00021911864591	0.990103958311672	0.286177610386722	0.239114147352305	0.264763622029200	0.229356819937411	0.341905724415031	0.330581219391479	-0.0761869129221681	-0.114691668716845	0.0168229490367192	-0.323021873646630	0.153449999333804	0.101378166813434	0.177709125837177	0.101766175833523	0.154645904978813	0.131397504351952	0.260106440721660	0.136975974209266	-0.0545215351930693	-0.0669133383588592	0.00908338639730226	-0.188234417332000	0.0866607691527729	0.0568735941831161	0.697392193413338	1.12051609470238	0.845592086057893];
 
@@ -42,33 +43,35 @@ CSTmax = max(max(X0(8:31)*CSTbounds(1),X0(8:31)*CSTbounds(2)),CSTmin+0.02);
 
 LB = [0.6, 0.2, 0.2, 0.8, 0.8, -0.5, -0.5, ...
     CSTmin, ...
-    0.5, 0.6, 0.6];
+    0.45, 0.6, 0.6];
 
-UB = [1.5, 1, 1, 1.2, 1.2, 1.1, 1, ...
+UB = [1.5, 1, 1, 1.2, 1.2, 1, 1, ...
     CSTmax, ...
-    1.5, 1.4, 1.4];
+    1.55, 1.4, 1.4];
 
 % Options for the optimization
 options.Display         = 'iter-detailed';
 options.Algorithm       = 'sqp';
 options.FunValCheck     = 'off';
-options.DiffMinChange   = 5e-3;       % Minimum change while gradient searching
-options.DiffMaxChange   = 1e-1;         % Maximum change while gradient searching
-options.TolCon          = 5e-3;       % Maximum difference between two subsequent constraint vectors [c and ceq]
-options.TolFun          = 5e-3;         % Maximum difference between two subseque
-options.TolX            = 5e-3;
+options.DiffMinChange   = 1e-4;       % Minimum change while gradient searching
+options.DiffMaxChange   = 1e-2;         % Maximum change while gradient searching
+options.TolCon          = 5e-5;       % Maximum difference between two subsequent constraint vectors [c and ceq]
+options.TolFun          = 5e-5;         % Maximum difference between two subseque
+options.TolX            = 5e-5;
 options.MaxIterations   = 30;
 options.ScaleProblem    = false;
 options.PlotFcns = {@optimplotx,@optimplotfval,@optimplotfirstorderopt};
 options.OutputFcn = @(x, optimValues, state) outF(x, optimValues, state);
 
-X0 = X0 + [1.2651     0.89441     0.30638     0.95858     0.82703     0.99932     0.98021     0.27672     0.25719      0.1988     0.17149     0.26767     0.35868   -0.057597    -0.11686    0.016321    -0.33951     0.11593     0.10962      0.1833    0.073645     0.11807    0.096942     0.28215     0.10248   -0.052723   -0.066776   0.0093265    -0.19782    0.066244    0.062639     0.60927      1.0606     0.85822]
-X0 = X0/2;
+X0 = [1.40372797108115	1.00000660656433	0.236080630076172	0.990236327311346	0.917338888669264	0.	0.	0.347624382744632	0.249737987181424	0.234168751276259	0.255930009769722	0.434204502713372	0.216039697605633	-0.108265797844145	-0.124837862428165	0.0353438545080431	-0.391293704201140	0.164826813041413	0.117698512759011	0.198138851261521	0.132017778010458	0.224215687200653	0.154960616671592	0.166537601252933	0.175562786484797	-0.0618801568325760	-0.0754481890312906	0.0100733894387093	-0.141111744619019	0.143561011655053	0.0596424085575251	0.500815084748915	1.06854772386793	0.843787804516344]
 %sol = ga(@(x)optim(x),size(LB,2),[],[],[],[],LB,UB,@(x)constraints(x));
 [sol,fval,exitflag,output] = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options);
 
 function stop = outF(x, optimValues, state)
     fileID = fopen("lastXIter.txt", "w");
     fprintf(fileID,'%s',num2str(x));
+    fileID = fopen("constrHistory.txt", "a+");
+    [c1, c2] = constraints(x);
+    fprintf(fileID,'%s\n',num2str([c1,c2]));
     stop = false;
 end
