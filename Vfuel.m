@@ -13,10 +13,10 @@ y.CST3 = x(20:31)*0.85+x(8:19)*0.15;
 y.CST2 = (x(8:19)+x(20:31))./2;
 
 %% Volume for first trapezoid
-vol1 = integral2(@(eta,nu)wing_surface(y.CST1,y.CST2,x(1)*initial.croot,x(1)*initial.croot*x(2),parameters.b1,eta,nu),0,1,0,1);
+vol1 = integral2(@(eta,nu)wing_surface(y.CST1,y.CST2,x(1)*initial.croot,x(1)*initial.croot*x(2),parameters.b1,eta,nu),0,.85,bounds(1),bounds(1));
 
 %% Volume for second trapezoid
-vol2 = integral2(@(eta,nu)wing_surface(y.CST2,y.CST2*0.15 + 0.85*y.CST3,x(1)*initial.croot*x(2),x(1)*initial.croot*x(2)*(0.15+0.85*x(3)),((initial.b2+parameters.b1)*0.85-parameters.b1),eta,nu),0,1,0,1);
+vol2 = integral2(@(eta,nu)wing_surface(y.CST2,y.CST2*0.15 + 0.85*y.CST3,x(1)*initial.croot*x(2),x(1)*initial.croot*x(2)*(0.15+0.85*x(3)),((initial.b2+parameters.b1)*0.85-parameters.b1),eta,nu),0,.85,bounds(1),bounds(2));
 
 %% Volume required
 vreq = couplings.y.Wfuel/0.81715e3;

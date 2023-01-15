@@ -79,40 +79,40 @@ plot_planform(x, false)
 res = 5;
 for i=0:res
     CST = y.CST1*(res-i)/res + y.CST2*i/res;
-    c = initial.croot*((res-i)/res+x(2)*i/res);
+    c = initial.croot*x(1)*((res-i)/res+x(2)*i/res);
     y_0_leading = parameters.b1*i/res;
-    x_0_leading = initial.croot-c;
+    x_0_leading = initial.croot*x(1)-c;
     cd 'CST'
     C = Cnm(0.5,1);
     S = Sa(CST(1:6));
     cd '..'
     Fextra = @(x) C(x).*S(x);
-    plot3((0:0.01:1)*0+y_0_leading,initial.croot-x_0_leading-c*(0:0.01:1), Fextra(0:0.01:1)*c, Color="red")
+    plot3((0:0.01:1)*0+y_0_leading,initial.croot*x(1)-x_0_leading-c*(0:0.01:1), Fextra(0:0.01:1)*c, Color="red")
     cd 'CST'
     C = Cnm(0.5,1);
     S = Sa(CST(7:12));
     cd '..'
     Fintra = @(x) C(x).*S(x);
-    plot3((0:0.01:1)*0+y_0_leading,initial.croot - x_0_leading- c*(0:0.01:1), Fintra(0:0.01:1)*c, Color="red")
+    plot3((0:0.01:1)*0+y_0_leading,initial.croot*x(1) - x_0_leading- c*(0:0.01:1), Fintra(0:0.01:1)*c, Color="red")
 end
 res=15
 for i=0:res
     CST = y.CST2*(res-i)/res + y.CST3*i/res;
-    c = initial.croot*x(2)*((res-i)/res+x(3)*i/res);
+    c = initial.croot*x(1)*x(2)*((res-i)/res+x(3)*i/res);
     y_0_leading = parameters.b1+initial.b2*x(4)*i/res;
-    x_0_leading = initial.croot*(1-x(2))+initial.b2*x(4)*i/res*tand(initial.sweep2*x(5));
+    x_0_leading = initial.croot*x(1)*(1-x(2))+initial.b2*x(4)*i/res*tand(initial.sweep2*x(5));
     cd 'CST'
     C = Cnm(0.5,1);
     S = Sa(CST(1:6));
     cd '..'
     Fextra = @(x) C(x).*S(x);
-    plot3((0:0.01:1)*0+y_0_leading,initial.croot-x_0_leading-c*(0:0.01:1), Fextra(0:0.01:1)*c, Color="red")
+    plot3((0:0.01:1)*0+y_0_leading,initial.croot*x(1)-x_0_leading-c*(0:0.01:1), Fextra(0:0.01:1)*c, Color="red")
     cd 'CST'
     C = Cnm(0.5,1);
     S = Sa(CST(7:12));
     cd '..'
     Fintra = @(x) C(x).*S(x);
-    plot3((0:0.01:1)*0+y_0_leading,initial.croot - x_0_leading- c*(0:0.01:1), Fintra(0:0.01:1)*c, Color="red")
+    plot3((0:0.01:1)*0+y_0_leading,initial.croot*x(1) - x_0_leading- c*(0:0.01:1), Fintra(0:0.01:1)*c, Color="red")
 end
 view([135 35])
 drawnow

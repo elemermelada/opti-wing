@@ -42,26 +42,28 @@ CSTmax = max(max(X0(8:31)*CSTbounds(1),X0(8:31)*CSTbounds(2)),CSTmin+0.02);
 
 LB = [0.6, 0.2, 0.2, 0.8, 0.8, -0.5, -0.5, ...
     CSTmin, ...
-    0.6, 0.6, 0.6];
+    0.5, 0.6, 0.6];
 
 UB = [1.5, 1, 1, 1.2, 1.2, 1.1, 1, ...
     CSTmax, ...
-    1.4, 1.4, 1.4];
+    1.5, 1.4, 1.4];
 
 % Options for the optimization
 options.Display         = 'iter-detailed';
 options.Algorithm       = 'sqp';
 options.FunValCheck     = 'off';
-options.DiffMinChange   = 1e-3;       % Minimum change while gradient searching
-options.DiffMaxChange   = 5e-2;         % Maximum change while gradient searching
-options.TolCon          = 1e-4;       % Maximum difference between two subsequent constraint vectors [c and ceq]
-options.TolFun          = 1e-4;         % Maximum difference between two subseque
-options.TolX            = 1e-4;
+options.DiffMinChange   = 5e-3;       % Minimum change while gradient searching
+options.DiffMaxChange   = 1e-1;         % Maximum change while gradient searching
+options.TolCon          = 5e-3;       % Maximum difference between two subsequent constraint vectors [c and ceq]
+options.TolFun          = 5e-3;         % Maximum difference between two subseque
+options.TolX            = 5e-3;
 options.MaxIterations   = 30;
 options.ScaleProblem    = false;
 options.PlotFcns = {@optimplotx,@optimplotfval,@optimplotfirstorderopt};
 options.OutputFcn = @(x, optimValues, state) outF(x, optimValues, state);
 
+X0 = X0 + [1.2651     0.89441     0.30638     0.95858     0.82703     0.99932     0.98021     0.27672     0.25719      0.1988     0.17149     0.26767     0.35868   -0.057597    -0.11686    0.016321    -0.33951     0.11593     0.10962      0.1833    0.073645     0.11807    0.096942     0.28215     0.10248   -0.052723   -0.066776   0.0093265    -0.19782    0.066244    0.062639     0.60927      1.0606     0.85822]
+X0 = X0/2;
 %sol = ga(@(x)optim(x),size(LB,2),[],[],[],[],LB,UB,@(x)constraints(x));
 [sol,fval,exitflag,output] = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options);
 
