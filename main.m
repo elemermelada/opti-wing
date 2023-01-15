@@ -43,21 +43,21 @@ CSTmax = max(max(X0(8:31)*CSTbounds(1),X0(8:31)*CSTbounds(2)),CSTmin+0.02);
 
 LB = [0.5, 0.2, 0.2, 0.8, 0.8, -0.5, -0.5, ...
     CSTmin, ...
-    0.45, 0.6, 0.6];
+    0.35, 0.6, 0.6];
 
 UB = [1.5, 1, 1, 1.2, 1.2, 1, 1, ...
     CSTmax, ...
-    1.55, 1.4, 1.4];
+    1.55, 1.6, 1.4];
 
 % Options for the optimization
 options.Display         = 'iter-detailed';
 options.Algorithm       = 'sqp';
 options.FunValCheck     = 'off';
-options.DiffMinChange   = 1e-4;       % Minimum change while gradient searching
-options.DiffMaxChange   = 1e-2;         % Maximum change while gradient searching
-options.TolCon          = 5e-5;       % Maximum difference between two subsequent constraint vectors [c and ceq]
-options.TolFun          = 5e-5;         % Maximum difference between two subseque
-options.TolX            = 5e-5;
+options.DiffMinChange   = 5e-3;       % Minimum change while gradient searching
+options.DiffMaxChange   = 1e-1;         % Maximum change while gradient searching
+options.TolCon          = 1e-4;       % Maximum difference between two subsequent constraint vectors [c and ceq]
+options.TolFun          = 1e-4;         % Maximum difference between two subseque
+options.TolX            = 1e-4;
 options.MaxIterations   = 30;
 options.ScaleProblem    = false;
 options.PlotFcns = {@optimplotx,@optimplotfval,@optimplotfirstorderopt};
@@ -65,6 +65,7 @@ options.OutputFcn = @(x, optimValues, state) outF(x, optimValues, state);
 
 %X0 = [1.40372797108115	1.00000660656433	0.236080630076172	0.990236327311346	0.917338888669264	0.	0.	0.347624382744632	0.249737987181424	0.234168751276259	0.255930009769722	0.434204502713372	0.216039697605633	-0.108265797844145	-0.124837862428165	0.0353438545080431	-0.391293704201140	0.164826813041413	0.117698512759011	0.198138851261521	0.132017778010458	0.224215687200653	0.154960616671592	0.166537601252933	0.175562786484797	-0.0618801568325760	-0.0754481890312906	0.0100733894387093	-0.141111744619019	0.143561011655053	0.0596424085575251	0.500815084748915	1.06854772386793	0.843787804516344]
 %sol = ga(@(x)optim(x),size(LB,2),[],[],[],[],LB,UB,@(x)constraints(x));
+X0 = [1.17521053660771	0.944986025053859	0.200328087367584	0.837596163427207	0.850433224437653	-0.0379028302079963	0.0138117029303775	0.347460677657071	0.235260764325485	0.229409024832587	0.201741317461961	0.322340426340527	0.388534829182023	-0.107555869536192	-0.128506806041310	0.0192171541150969	-0.363571444535521	0.152574715914784	0.0918392139003153	0.161325945367710	0.158718292082331	0.136665798476362	0.197964955289514	0.164925669894120	0.144097392983345	-0.0618475213487582	-0.0771053887263340	0.0200987679012112	-0.222904187578413	0.0865516768202322	0.0365391804825336	0.450000000000000	1.40000000000000	0.662098965827260];
 tic
 [sol,fval,exitflag,output] = fmincon(@(x)optim(x),X0,[],[],[],[],LB,UB,@(x)constraints(x),options);
 toc
@@ -72,8 +73,10 @@ toc
 function stop = outF(x, optimValues, state)
     fileID = fopen("lastXIter.txt", "w");
     fprintf(fileID,'%s',num2str(x));
+    fclose(fileID);
     fileID = fopen("constrHistory.txt", "a+");
     [c1, c2] = constraints(x);
     fprintf(fileID,'%s\n',num2str([c1,c2]));
+    fclose(fileID);
     stop = false;
 end

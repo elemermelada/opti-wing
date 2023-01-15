@@ -18,7 +18,7 @@ E_0=initial.E_0;
 Wwing_0=initial.Wwing_0;
 Wfuel_0=initial.Wfuel_0;
 
-ceq1 = abs(y.E - y.E_c*E_0)/(abs(y.E_c*E_0)+0.01);
+ceq1 = 100*abs(y.E - y.E_c*E_0)/(abs(y.E_c*E_0)+0.01);
 ceq2 = abs(y.Wwing - y.Wwing_c*Wwing_0)/(abs(y.Wwing_c*Wwing_0)+0.01);
 ceq3 = abs(y.Wfuel - y.Wfuel_c*Wfuel_0)/(abs(y.Wfuel_c*Wfuel_0)+0.01);
 
