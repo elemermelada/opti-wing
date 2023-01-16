@@ -47,17 +47,17 @@ LB = [0.5, 0.2, 0.2, 0.8, 0.8, -0.5, -0.5, ...
 
 UB = [1.5, 1, 1, 1.2, 1.2, 1, 1, ...
     CSTmax, ...
-    1.55, 1.6, 1.4];
+    1.6, 1.6, 1.6];
 
 % Options for the optimization
 options.Display         = 'iter-detailed';
 options.Algorithm       = 'sqp';
 options.FunValCheck     = 'off';
-options.DiffMinChange   = 5e-3;       % Minimum change while gradient searching
+options.DiffMinChange   = 1e-2;       % Minimum change while gradient searching
 options.DiffMaxChange   = 1e-1;         % Maximum change while gradient searching
 options.TolCon          = 1e-4;       % Maximum difference between two subsequent constraint vectors [c and ceq]
 options.TolFun          = 1e-4;         % Maximum difference between two subseque
-options.TolX            = 1e-4;
+options.TolX            = 1e-5;
 options.MaxIterations   = 30;
 options.ScaleProblem    = false;
 options.PlotFcns = {@optimplotx,@optimplotfval,@optimplotfirstorderopt};
