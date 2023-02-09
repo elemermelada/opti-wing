@@ -1,5 +1,5 @@
 # B737-800 Wing Optimization for AE4205
-### Developed in Matlab, using Q3D and EMWET
+### Developed in Matlab, using Q3D and EMWET, for the AE4205 course in TU Delft
 #### _By Cristina Garitano Olaizola and Elemer José San Miguel Niddam_
 ## Description
 
